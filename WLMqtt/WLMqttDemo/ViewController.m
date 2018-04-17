@@ -43,7 +43,7 @@
     person.login.token = @"123";
     person.login.name = @"1";
     
-    [[WLMQTTClientManager shareInstance] push:person topic:@"Login/HD_Login" isBack:YES];
+    [[WLMQTTClientManager shareInstance] push:[person data] topic:@"Login/HD_Login" isBack:YES];
 }
 
 

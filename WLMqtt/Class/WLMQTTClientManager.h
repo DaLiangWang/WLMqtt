@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GPBMessage.h"
 #import "WLMQTTStatus.h"
 
 /**
@@ -49,6 +48,9 @@ typedef void(^MQTTReceiveServerStatus)(WLMQTTStatus *status);
 
 
 @end
+
+
+
 @interface WLMQTTClientManager : NSObject
 
 /**
@@ -117,7 +119,7 @@ typedef void(^MQTTReceiveServerStatus)(WLMQTTStatus *status);
  @param topic 发送地址
  @param isBack 是否需要返回地址
  */
--(void)push:(GPBMessage *)data
+-(void)push:(NSData *)data
       topic:(NSString *)topic
      isBack:(BOOL)isBack;
 

@@ -184,17 +184,17 @@ MQTTReceiveServerStatus:(MQTTReceiveServerStatus)MQTTReceiveServerStatus
 }
 
 /*发送数据*/
--(void)push:(GPBMessage *)data
+-(void)push:(NSData *)data
       topic:(NSString *)topic
      isBack:(BOOL)isBack{
 //    GPBMessage *dataPGB = data;
     if (isBack) {
         topic = [NSString stringWithFormat:@"%@/%ld",topic,_pushNum];
-        [self.mqttSession publishData:[data data] onTopic:topic];
+        [self.mqttSession publishData:data onTopic:topic];
         _pushNum ++;
     }
     else{
-        [self.mqttSession publishData:[data data] onTopic:topic];
+        [self.mqttSession publishData:data onTopic:topic];
     }
     //    [self.mqttSession subscribeTopic:topic];
 }
