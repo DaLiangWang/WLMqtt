@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
     s.name         = 'WLMqtt'
-    s.version      = '1.0.0'
+    s.version      = '0.0.5'
     s.summary      = 'An easy way to use mqtt'
     s.homepage     = 'https://github.com/DaLiangWang/WLMqtt'
     s.license      = 'MIT'

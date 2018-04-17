@@ -7,9 +7,7 @@
 //
 
 #import "WLMQTTClientManager.h"
-//#import <UIKit/UIDevice.h>
-
-//#import "WLMQTTStatus.h"
+#import "MQTTClient.h"
 
 
 #define mqttIp @"172.16.3.225"
