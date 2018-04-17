@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -17,24 +18,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="heS-zJ-WMX">
-                                <rect key="frame" x="100" y="161" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="heS-zJ-WMX">
+                                <rect key="frame" x="172" y="220" width="31" height="30"/>
+                                <state key="normal" title="连接"/>
                                 <connections>
                                     <action selector="click_button:" destination="BYZ-38-t0r" eventType="touchUpInside" id="46g-3b-3sz"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NX7-oF-3VF">
-                                <rect key="frame" x="156" y="428" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NX7-oF-3VF">
+                                <rect key="frame" x="156.5" y="300" width="62" height="30"/>
+                                <state key="normal" title="发送消息"/>
                                 <connections>
                                     <action selector="click_push_button:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5HS-WN-veK"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="NX7-oF-3VF" firstAttribute="top" secondItem="heS-zJ-WMX" secondAttribute="bottom" constant="50" id="CCd-iP-JUl"/>
+                            <constraint firstItem="NX7-oF-3VF" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="JXY-Ln-1t7"/>
+                            <constraint firstItem="heS-zJ-WMX" firstAttribute="top" secondItem="BsV-CJ-stD" secondAttribute="top" constant="200" id="PCG-Ad-SBB"/>
+                            <constraint firstItem="heS-zJ-WMX" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="drk-tq-Xau"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="BsV-CJ-stD"/>
                     </view>
                     <connections>
                         <outlet property="click" destination="heS-zJ-WMX" id="3tl-bg-dHm"/>

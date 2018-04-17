@@ -7,18 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EF08556F20808143001040B8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08556E20808143001040B8 /* AppDelegate.m */; };
-		EF08557220808143001040B8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08557120808143001040B8 /* ViewController.m */; };
-		EF08557720808143001040B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF08557620808143001040B8 /* Assets.xcassets */; };
-		EF08557D20808143001040B8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08557C20808143001040B8 /* main.m */; };
-		EF08558720808143001040B8 /* mqttTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08558620808143001040B8 /* mqttTests.m */; };
-		EF08559220808143001040B8 /* mqttUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08559120808143001040B8 /* mqttUITests.m */; };
-		EF0855A120808317001040B8 /* WLMQTTStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0855A020808317001040B8 /* WLMQTTStatus.m */; };
-		EF0855A720808352001040B8 /* WLMQTTClientManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0855A620808352001040B8 /* WLMQTTClientManager.m */; };
-		EF7DB66120809DEF00A4FB41 /* gamemsg.proto in Resources */ = {isa = PBXBuildFile; fileRef = EF7DB66020809DEF00A4FB41 /* gamemsg.proto */; };
-		EF7DB6642080A58200A4FB41 /* Gamemsg.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7DB6632080A58200A4FB41 /* Gamemsg.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		EFB51F22208493E2007EDBCF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFB51F20208493E2007EDBCF /* Main.storyboard */; };
-		EFB51F23208493E2007EDBCF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFB51F21208493E2007EDBCF /* LaunchScreen.storyboard */; };
+		EFE3D4022085FF6C0053F613 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFE3D3EE2085FF6C0053F613 /* LaunchScreen.storyboard */; };
+		EFE3D4032085FF6C0053F613 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFE3D3F02085FF6C0053F613 /* Assets.xcassets */; };
+		EFE3D4042085FF6C0053F613 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE3D3F12085FF6C0053F613 /* ViewController.m */; };
+		EFE3D4052085FF6C0053F613 /* Gamemsg.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE3D3F32085FF6C0053F613 /* Gamemsg.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		EFE3D4062085FF6C0053F613 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFE3D3F52085FF6C0053F613 /* Main.storyboard */; };
+		EFE3D4072085FF6C0053F613 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE3D3F62085FF6C0053F613 /* main.m */; };
+		EFE3D4082085FF6C0053F613 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE3D3F72085FF6C0053F613 /* AppDelegate.m */; };
+		EFE3D4092085FF6C0053F613 /* gamemsg.proto in Resources */ = {isa = PBXBuildFile; fileRef = EFE3D3F92085FF6C0053F613 /* gamemsg.proto */; };
+		EFE3D40A2085FF6C0053F613 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFE3D3FA2085FF6C0053F613 /* Info.plist */; };
+		EFE3D40B2085FF6C0053F613 /* WLMQTTClientManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE3D4002085FF6C0053F613 /* WLMQTTClientManager.m */; };
+		EFE3D40C2085FF6C0053F613 /* WLMQTTStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE3D4012085FF6C0053F613 /* WLMQTTStatus.m */; };
 		FBF6C954AA071113D9D5740C /* libPods-mqtt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D41703E6F16615682CD8EE07 /* libPods-mqtt.a */; };
 /* End PBXBuildFile section */
 
@@ -44,29 +43,25 @@
 		D41703E6F16615682CD8EE07 /* libPods-mqtt.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mqtt.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC0B4AC9FB1669BB44F4DA91 /* Pods-mqtt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mqtt.release.xcconfig"; path = "Pods/Target Support Files/Pods-mqtt/Pods-mqtt.release.xcconfig"; sourceTree = "<group>"; };
 		EF08556A20808143001040B8 /* mqtt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mqtt.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		EF08556D20808143001040B8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		EF08556E20808143001040B8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		EF08557020808143001040B8 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		EF08557120808143001040B8 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		EF08557620808143001040B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		EF08557B20808143001040B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EF08557C20808143001040B8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EF08558220808143001040B8 /* mqttTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mqttTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EF08558620808143001040B8 /* mqttTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mqttTests.m; sourceTree = "<group>"; };
-		EF08558820808143001040B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF08558D20808143001040B8 /* mqttUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = mqttUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EF08559120808143001040B8 /* mqttUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mqttUITests.m; sourceTree = "<group>"; };
-		EF08559320808143001040B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EF08559F20808317001040B8 /* WLMQTTStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLMQTTStatus.h; sourceTree = "<group>"; };
-		EF0855A020808317001040B8 /* WLMQTTStatus.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WLMQTTStatus.m; sourceTree = "<group>"; };
-		EF0855A220808334001040B8 /* WLMQTTClientManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLMQTTClientManagerDelegate.h; sourceTree = "<group>"; };
-		EF0855A520808352001040B8 /* WLMQTTClientManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLMQTTClientManager.h; sourceTree = "<group>"; };
-		EF0855A620808352001040B8 /* WLMQTTClientManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WLMQTTClientManager.m; sourceTree = "<group>"; };
-		EF7DB66020809DEF00A4FB41 /* gamemsg.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gamemsg.proto; sourceTree = "<group>"; };
-		EF7DB6622080A58200A4FB41 /* Gamemsg.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gamemsg.pbobjc.h; sourceTree = "<group>"; };
-		EF7DB6632080A58200A4FB41 /* Gamemsg.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gamemsg.pbobjc.m; sourceTree = "<group>"; };
-		EFB51F20208493E2007EDBCF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		EFB51F21208493E2007EDBCF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EFE3D3EE2085FF6C0053F613 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EFE3D3EF2085FF6C0053F613 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		EFE3D3F02085FF6C0053F613 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EFE3D3F12085FF6C0053F613 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		EFE3D3F32085FF6C0053F613 /* Gamemsg.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gamemsg.pbobjc.m; sourceTree = "<group>"; };
+		EFE3D3F42085FF6C0053F613 /* Gamemsg.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gamemsg.pbobjc.h; sourceTree = "<group>"; };
+		EFE3D3F52085FF6C0053F613 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		EFE3D3F62085FF6C0053F613 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		EFE3D3F72085FF6C0053F613 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		EFE3D3F92085FF6C0053F613 /* gamemsg.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gamemsg.proto; sourceTree = "<group>"; };
+		EFE3D3FA2085FF6C0053F613 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EFE3D3FB2085FF6C0053F613 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		EFE3D3FD2085FF6C0053F613 /* WLMQTTStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMQTTStatus.h; sourceTree = "<group>"; };
+		EFE3D3FE2085FF6C0053F613 /* WLMQTTClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMQTTClientManager.h; sourceTree = "<group>"; };
+		EFE3D3FF2085FF6C0053F613 /* WLMQTTClientManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMQTTClientManagerDelegate.h; sourceTree = "<group>"; };
+		EFE3D4002085FF6C0053F613 /* WLMQTTClientManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMQTTClientManager.m; sourceTree = "<group>"; };
+		EFE3D4012085FF6C0053F613 /* WLMQTTStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMQTTStatus.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,9 +110,8 @@
 		EF08556120808143001040B8 = {
 			isa = PBXGroup;
 			children = (
-				EF08556C20808143001040B8 /* mqtt */,
-				EF08558520808143001040B8 /* mqttTests */,
-				EF08559020808143001040B8 /* mqttUITests */,
+				EFE3D3ED2085FF6C0053F613 /* mqttDemo */,
+				EFE3D3FC2085FF6C0053F613 /* WLMQTT */,
 				EF08556B20808143001040B8 /* Products */,
 				A4CED60C658A35045EEC534B /* Pods */,
 				9CC082EAE87CB537ACC36C59 /* Frameworks */,
@@ -134,70 +128,51 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		EF08556C20808143001040B8 /* mqtt */ = {
+		EFE3D3ED2085FF6C0053F613 /* mqttDemo */ = {
 			isa = PBXGroup;
 			children = (
-				EF7DB65F20809DE100A4FB41 /* Gen */,
-				EF7DB65E20809DC500A4FB41 /* Protobuf */,
-				EF7DB65D20809DBB00A4FB41 /* WLMQTT */,
-				EF08556D20808143001040B8 /* AppDelegate.h */,
-				EF08556E20808143001040B8 /* AppDelegate.m */,
-				EF08557020808143001040B8 /* ViewController.h */,
-				EF08557120808143001040B8 /* ViewController.m */,
-				EFB51F21208493E2007EDBCF /* LaunchScreen.storyboard */,
-				EFB51F20208493E2007EDBCF /* Main.storyboard */,
-				EF08557620808143001040B8 /* Assets.xcassets */,
-				EF08557B20808143001040B8 /* Info.plist */,
-				EF08557C20808143001040B8 /* main.m */,
+				EFE3D3F22085FF6C0053F613 /* Gen */,
+				EFE3D3F82085FF6C0053F613 /* Protobuf */,
+				EFE3D3EF2085FF6C0053F613 /* AppDelegate.h */,
+				EFE3D3F72085FF6C0053F613 /* AppDelegate.m */,
+				EFE3D3FB2085FF6C0053F613 /* ViewController.h */,
+				EFE3D3F12085FF6C0053F613 /* ViewController.m */,
+				EFE3D3F02085FF6C0053F613 /* Assets.xcassets */,
+				EFE3D3F52085FF6C0053F613 /* Main.storyboard */,
+				EFE3D3EE2085FF6C0053F613 /* LaunchScreen.storyboard */,
+				EFE3D3F62085FF6C0053F613 /* main.m */,
+				EFE3D3FA2085FF6C0053F613 /* Info.plist */,
 			);
-			path = mqtt;
+			path = mqttDemo;
 			sourceTree = "<group>";
 		};
-		EF08558520808143001040B8 /* mqttTests */ = {
+		EFE3D3F22085FF6C0053F613 /* Gen */ = {
 			isa = PBXGroup;
 			children = (
-				EF08558620808143001040B8 /* mqttTests.m */,
-				EF08558820808143001040B8 /* Info.plist */,
+				EFE3D3F42085FF6C0053F613 /* Gamemsg.pbobjc.h */,
+				EFE3D3F32085FF6C0053F613 /* Gamemsg.pbobjc.m */,
 			);
-			path = mqttTests;
+			path = Gen;
 			sourceTree = "<group>";
 		};
-		EF08559020808143001040B8 /* mqttUITests */ = {
+		EFE3D3F82085FF6C0053F613 /* Protobuf */ = {
 			isa = PBXGroup;
 			children = (
-				EF08559120808143001040B8 /* mqttUITests.m */,
-				EF08559320808143001040B8 /* Info.plist */,
-			);
-			path = mqttUITests;
-			sourceTree = "<group>";
-		};
-		EF7DB65D20809DBB00A4FB41 /* WLMQTT */ = {
-			isa = PBXGroup;
-			children = (
-				EF08559F20808317001040B8 /* WLMQTTStatus.h */,
-				EF0855A020808317001040B8 /* WLMQTTStatus.m */,
-				EF0855A220808334001040B8 /* WLMQTTClientManagerDelegate.h */,
-				EF0855A520808352001040B8 /* WLMQTTClientManager.h */,
-				EF0855A620808352001040B8 /* WLMQTTClientManager.m */,
-			);
-			path = WLMQTT;
-			sourceTree = "<group>";
-		};
-		EF7DB65E20809DC500A4FB41 /* Protobuf */ = {
-			isa = PBXGroup;
-			children = (
-				EF7DB66020809DEF00A4FB41 /* gamemsg.proto */,
+				EFE3D3F92085FF6C0053F613 /* gamemsg.proto */,
 			);
 			path = Protobuf;
 			sourceTree = "<group>";
 		};
-		EF7DB65F20809DE100A4FB41 /* Gen */ = {
+		EFE3D3FC2085FF6C0053F613 /* WLMQTT */ = {
 			isa = PBXGroup;
 			children = (
-				EF7DB6622080A58200A4FB41 /* Gamemsg.pbobjc.h */,
-				EF7DB6632080A58200A4FB41 /* Gamemsg.pbobjc.m */,
+				EFE3D3FD2085FF6C0053F613 /* WLMQTTStatus.h */,
+				EFE3D3FE2085FF6C0053F613 /* WLMQTTClientManager.h */,
+				EFE3D3FF2085FF6C0053F613 /* WLMQTTClientManagerDelegate.h */,
+				EFE3D4002085FF6C0053F613 /* WLMQTTClientManager.m */,
+				EFE3D4012085FF6C0053F613 /* WLMQTTStatus.m */,
 			);
-			path = Gen;
+			path = WLMQTT;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -307,10 +282,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EFB51F22208493E2007EDBCF /* Main.storyboard in Resources */,
-				EFB51F23208493E2007EDBCF /* LaunchScreen.storyboard in Resources */,
-				EF7DB66120809DEF00A4FB41 /* gamemsg.proto in Resources */,
-				EF08557720808143001040B8 /* Assets.xcassets in Resources */,
+				EFE3D4092085FF6C0053F613 /* gamemsg.proto in Resources */,
+				EFE3D4062085FF6C0053F613 /* Main.storyboard in Resources */,
+				EFE3D4032085FF6C0053F613 /* Assets.xcassets in Resources */,
+				EFE3D40A2085FF6C0053F613 /* Info.plist in Resources */,
+				EFE3D4022085FF6C0053F613 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,12 +332,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF7DB6642080A58200A4FB41 /* Gamemsg.pbobjc.m in Sources */,
-				EF08557220808143001040B8 /* ViewController.m in Sources */,
-				EF0855A120808317001040B8 /* WLMQTTStatus.m in Sources */,
-				EF08557D20808143001040B8 /* main.m in Sources */,
-				EF0855A720808352001040B8 /* WLMQTTClientManager.m in Sources */,
-				EF08556F20808143001040B8 /* AppDelegate.m in Sources */,
+				EFE3D40C2085FF6C0053F613 /* WLMQTTStatus.m in Sources */,
+				EFE3D4082085FF6C0053F613 /* AppDelegate.m in Sources */,
+				EFE3D4052085FF6C0053F613 /* Gamemsg.pbobjc.m in Sources */,
+				EFE3D40B2085FF6C0053F613 /* WLMQTTClientManager.m in Sources */,
+				EFE3D4072085FF6C0053F613 /* main.m in Sources */,
+				EFE3D4042085FF6C0053F613 /* ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,7 +345,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF08558720808143001040B8 /* mqttTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,7 +352,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF08559220808143001040B8 /* mqttUITests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -516,7 +490,7 @@
 					"\"${PODS_ROOT}/Headers/Public/SocketRocket\"",
 					"$(PROJECT)/ProtocolBuffer",
 				);
-				INFOPLIST_FILE = mqtt/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/mqttDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -545,7 +519,7 @@
 					"\"${PODS_ROOT}/Headers/Public/SocketRocket\"",
 					"$(PROJECT)/ProtocolBuffer",
 				);
-				INFOPLIST_FILE = mqtt/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/mqttDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
