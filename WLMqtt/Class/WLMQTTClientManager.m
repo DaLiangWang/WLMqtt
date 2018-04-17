@@ -8,10 +8,11 @@
 
 #import "WLMQTTClientManager.h"
 #import "MQTTClient.h"
+#import "MQTTLog.h"
 
 
-#define mqttIp @"172.16.3.225"
-#define mqttPort 3563
+//#define mqttIp @"172.16.3.225"
+//#define mqttPort 3563
 
 @interface WLMQTTClientManager ()<MQTTSessionDelegate>{
     //标示ID
@@ -46,38 +47,44 @@
 {
     self = [super init];
     if (self) {
-        self.ip = mqttIp;
-        self.port = mqttPort;
+//        self.ip = mqttIp;
+//        self.port = mqttPort;
+#ifdef DEBUG
+        [MQTTLog setLogLevel:DDLogLevelAll];
+#else
+        [MQTTLog setLogLevel:DDLogLevelOff];
+#endif
         _pushNum = 1;
     }
     return self;
-}
-#pragma mark 懒加载
--(MQTTSession *)mqttSession{
-    if (!_mqttSession) {
-        _mqttSession = [[MQTTSession alloc] initWithClientId:_clientID];
-    }
-    return _mqttSession;
-}
-
--(MQTTCFSocketTransport *)transport{
-    if (!_transport) {
-        _transport=[[MQTTCFSocketTransport alloc] init];
-    }
-    return _transport;
-}
--(WLMQTTStatus *)mqttStatus{
-    if (!_mqttStatus) {
-        _mqttStatus=[[WLMQTTStatus alloc] init];
-    }
-    return _mqttStatus;
 }
 
 -(void)setIp:(NSString *)Ip Port:(UInt16)port{
     self.ip = Ip;
     self.port = port;
 }
+-(void)setUserName:(NSString *)userName Password:(NSString *)password{
+    self.userName = userName;
+    self.password = password;
+}
 
+/**
+ mqtt链接方法
+ 
+ @param clientID 唯一标示
+ */
+-(void)loginWithClientID:(NSString *)clientID{
+    [self loginWithClientID:clientID
+                         Ip:self.ip
+                       port:self.port
+                   userName:self.userName
+                   password:self.password
+          messageTopicBlock:nil
+    WLMessageDeliveredMsgID:nil
+    MQTTReceiveServerStatus:nil
+             monitorFlowing:nil
+                   delegate:nil];
+}
 /**
  mqtt链接方法
  
@@ -86,34 +93,22 @@
  @param MQTTReceiveServerStatus 链接状态回掉
  */
 -(void)loginWithClientID:(NSString *)clientID
-       messageTopicBlock:(messageTopicBlock)messageTopicBlock
- MQTTReceiveServerStatus:(MQTTReceiveServerStatus)MQTTReceiveServerStatus{
+       messageTopicBlock:(WLMessageTopicBlock)messageTopicBlock
+ WLMessageDeliveredMsgID:(WLMessageDeliveredMsgID)messageDeliveredMsgID
+ MQTTReceiveServerStatus:(WLMQTTReceiveServerStatus)MQTTReceiveServerStatus
+          monitorFlowing:(WLMonitorFlowing)monitorFlowing{
     [self loginWithClientID:clientID
                          Ip:self.ip
                        port:self.port
-                   userName:@""
-                   password:@""
+                   userName:self.userName
+                   password:self.password
           messageTopicBlock:messageTopicBlock
+    WLMessageDeliveredMsgID:messageDeliveredMsgID
     MQTTReceiveServerStatus:MQTTReceiveServerStatus
+             monitorFlowing:monitorFlowing
                    delegate:nil];
 }
-/**
- mqtt链接方法
- 
- @param clientID 唯一标示
- @param delegate 代理
- */
--(void)loginWithClientID:(NSString *)clientID
-                delegate:(id)delegate{
-    [self loginWithClientID:clientID
-                         Ip:self.ip
-                       port:self.port
-                   userName:@""
-                   password:@""
-          messageTopicBlock:nil
-    MQTTReceiveServerStatus:nil
-                   delegate:delegate];
-}
+
 /**
  mqtt链接方法
 
@@ -131,12 +126,23 @@
                     port:(UInt16)port
                 userName:(NSString *)userName
                 password:(NSString *)password
-       messageTopicBlock:(messageTopicBlock)messageTopicBlock
-MQTTReceiveServerStatus:(MQTTReceiveServerStatus)MQTTReceiveServerStatus
+       messageTopicBlock:(WLMessageTopicBlock)messageTopicBlock
+ WLMessageDeliveredMsgID:(WLMessageDeliveredMsgID)messageDeliveredMsgID
+ MQTTReceiveServerStatus:(WLMQTTReceiveServerStatus)MQTTReceiveServerStatus
+          monitorFlowing:(WLMonitorFlowing)monitorFlowing
                 delegate:(id)delegate{
+    if(!ip) {NSLog(@"!!!!!!!!!!!!%@!!!!!!!!!!!!",@"未设置IP地址"); return;}
+    if(!port) {NSLog(@"!!!!!!!!!!!!%@!!!!!!!!!!!!",@"未设置port端口号"); return;}
+    if(!clientID) {NSLog(@"!!!!!!!!!!!!%@!!!!!!!!!!!!",@"未设置clientID地址"); return;}
+    
+    if(!userName) {NSLog(@"---------%@---------",@"未设置账号");}
+    if(!password) {NSLog(@"---------%@---------",@"未设置密码");}
+
     _clientID = clientID;
     self.messageTopicBlock = messageTopicBlock;
     self.MQTTReceiveServerStatus = MQTTReceiveServerStatus;
+    self.messageDeliveredMsgID = messageDeliveredMsgID;
+    self.monitorFlowing = monitorFlowing;
 
     [self loginMQTTHost:ip port:port userName:userName password:password];
 }
@@ -150,6 +156,8 @@ MQTTReceiveServerStatus:(MQTTReceiveServerStatus)MQTTReceiveServerStatus
     /*设置MQTT账号和密码*/
     self.mqttSession.transport = self.transport;//给MQTTSession对象设置基本信息
     self.mqttSession.delegate = self;//设置代理
+    
+
     [self.mqttSession setUserName:userName];
     [self.mqttSession setPassword:password];
     
@@ -168,17 +176,17 @@ MQTTReceiveServerStatus:(MQTTReceiveServerStatus)MQTTReceiveServerStatus
     _port=0;//服务器ip地址
     _userName=nil;//用户名
     _password=nil;//密码
-//    _topic=nil;//单个主题订阅
-//    _topics=nil;//多个主题订阅
 }
 
-/**
- 解除代理
- 
- @param obj 需要接触代理的对象
- */
--(void)unRegisterDelegate:(id)obj{
-    self.delegate=nil;
+/** 绑定代理 */
+-(void)bindingDelegate:(id)obj{
+    self.delegate = nil;
+    self.delegate = obj;
+}
+
+/** 解除代理 */
+-(void)unRegisterDelegate;{
+    self.delegate = nil;
 }
 
 /*发送数据*/
@@ -200,13 +208,6 @@ MQTTReceiveServerStatus:(MQTTReceiveServerStatus)MQTTReceiveServerStatus
 /*连接成功回调*/
 -(void)connected:(MQTTSession *)session{
     NSLog(@"-----------------MQTT成功建立连接-----------------");
-//    if (_topic) {
-//        NSLog(@"-----------------MQTT链接-----------------");
-//        [self.mqttSession subscribeTopic:_topic];
-//    }else if(_topics){
-//        NSLog(@"-----------------MQTT订阅多个个主题-----------------");
-//        [self.mqttSession subscribeToTopics:_topics];
-//    }
 }
 /*连接状态回调*/
 -(void)handleEvent:(MQTTSession *)session event:(MQTTSessionEvent)eventCode error:(NSError *)error{
@@ -266,8 +267,8 @@ MQTTReceiveServerStatus:(MQTTReceiveServerStatus)MQTTReceiveServerStatus
 #pragma make --回掉--
 //收到信息
 -(void)messageBlockTopic:(NSString *)topic data:(NSDictionary *)dic jsonStr:(NSString *)jsonStr{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(messageTopic:data:jsonStr:)]) {
-        [self.delegate messageTopic:topic data:dic jsonStr:jsonStr];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(WLMessageTopic:data:jsonStr:)]) {
+        [self.delegate WLMessageTopic:topic data:dic jsonStr:jsonStr];
     }
     if (self.messageTopicBlock) {
         self.messageTopicBlock(topic, dic, jsonStr);
@@ -275,11 +276,45 @@ MQTTReceiveServerStatus:(MQTTReceiveServerStatus)MQTTReceiveServerStatus
 }
 //连接状态
 -(void)didBlockMQTTReceiveServerStatus:(WLMQTTStatus *)mqttStatus{
-    if (self.delegate&&[self.delegate respondsToSelector:@selector(didMQTTReceiveServerStatus:)]) {
-        [self.delegate didMQTTReceiveServerStatus:mqttStatus];
+    if (self.delegate&&[self.delegate respondsToSelector:@selector(WLDidMQTTReceiveServerStatus:)]) {
+        [self.delegate WLDidMQTTReceiveServerStatus:mqttStatus];
     }
     if (self.MQTTReceiveServerStatus) {
         self.MQTTReceiveServerStatus(mqttStatus);
     }
+}
+//监视传输和接收的消息的完成情况
+-(void)WLMonitorFlowingIn:(NSInteger)in flowingOut:(NSInteger)Out{
+    if (self.delegate&&[self.delegate respondsToSelector:@selector(WLMonitorFlowingIn:flowingOut:)]) {
+        [self.delegate WLMonitorFlowingIn:in flowingOut:Out];
+    }
+    if (self.monitorFlowing) {
+        self.monitorFlowing(in,Out);
+    }
+}
+
+
+
+#pragma mark 懒加载
+-(MQTTSession *)mqttSession{
+    if (!_mqttSession) {
+        _mqttSession = [[MQTTSession alloc] initWithClientId:_clientID];
+        
+        
+    }
+    return _mqttSession;
+}
+
+-(MQTTCFSocketTransport *)transport{
+    if (!_transport) {
+        _transport=[[MQTTCFSocketTransport alloc] init];
+    }
+    return _transport;
+}
+-(WLMQTTStatus *)mqttStatus{
+    if (!_mqttStatus) {
+        _mqttStatus=[[WLMQTTStatus alloc] init];
+    }
+    return _mqttStatus;
 }
 @end

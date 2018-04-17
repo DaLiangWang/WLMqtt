@@ -1,39 +1,27 @@
 PODS:
-  - CocoaLumberjack (3.4.1):
-    - CocoaLumberjack/Default (= 3.4.1)
-    - CocoaLumberjack/Extensions (= 3.4.1)
-  - CocoaLumberjack/Default (3.4.1)
-  - CocoaLumberjack/Extensions (3.4.1):
-    - CocoaLumberjack/Default
-  - MQTTClient/ManagerL (0.13.1):
-    - MQTTClient/MinL
-  - MQTTClient/MinL (0.13.1):
-    - CocoaLumberjack
-  - MQTTClient/WebsocketL (0.13.1):
-    - MQTTClient/MinL
-    - SocketRocket
+  - MQTTClient (0.13.1):
+    - MQTTClient/Core (= 0.13.1)
+  - MQTTClient/Core (0.13.1):
+    - MQTTClient/Manager
+    - MQTTClient/Min
+  - MQTTClient/Manager (0.13.1):
+    - MQTTClient/Min
+  - MQTTClient/Min (0.13.1)
   - Protobuf (3.0.2)
-  - SocketRocket (0.5.1)
 
 DEPENDENCIES:
-  - MQTTClient/ManagerL
-  - MQTTClient/MinL
-  - MQTTClient/WebsocketL
+  - MQTTClient
   - Protobuf (~> 3.0.2)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
-    - CocoaLumberjack
     - MQTTClient
     - Protobuf
-    - SocketRocket
 
 SPEC CHECKSUMS:
-  CocoaLumberjack: 2e258a064cacc8eb9a2aca318e24d02a0a7fd56d
   MQTTClient: bedb2125ed9fcde295731e7605793f7757a41c8e
   Protobuf: 6d10f661ec22108e47dea70446ec89e00584fd42
-  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
 
-PODFILE CHECKSUM: 78363037faa8aa47150c861fef2bc76c0e68a509
+PODFILE CHECKSUM: 990568b8e3ce259a3e4e1f4e4e1ef4f954c785b7
 
 COCOAPODS: 1.5.0

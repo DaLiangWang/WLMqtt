@@ -23,10 +23,15 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 - (IBAction)click_button:(id)sender {
+    [[WLMQTTClientManager shareInstance] setIp:@"172.16.3.225" Port:3563];
     [[WLMQTTClientManager shareInstance] loginWithClientID:@"123" messageTopicBlock:^(NSString *topic, NSDictionary *dic, NSString *jsonStr) {
         NSLog(@"dic:%@------json:%@",dic,jsonStr);
+    } WLMessageDeliveredMsgID:^(UInt16 msgID, NSString *topic, NSData *data, BOOL retainFlag) {
+        
     } MQTTReceiveServerStatus:^(WLMQTTStatus *status) {
         NSLog(@"%@",status.statusInfo);
+    } monitorFlowing:^(NSInteger flowingIn, NSInteger flowingOut) {
+        
     }];
 }
 

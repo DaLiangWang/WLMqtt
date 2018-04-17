@@ -7,49 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "WLMQTTStatus.h"
-
-/**
- 服务器回掉
- 
- @param topic 回掉表示
- @param dic 回掉内容1 字典格式
- @param jsonStr 回掉内容2 字符串
- */
-typedef void(^messageTopicBlock)(NSString *topic,NSDictionary *dic,NSString *jsonStr);
-
-/**
- 链接状态回掉
- 
- @param status 链接状态
- */
-typedef void(^MQTTReceiveServerStatus)(WLMQTTStatus *status);
-
-
-
-@protocol WLMQTTClientManagerDelegate <NSObject>
-
-@optional
-
-/**
- 连接状态返回
- 
- @param status 错误码和错误info
- */
--(void)didMQTTReceiveServerStatus:(WLMQTTStatus *)status;
-
-/**
- 服务器推送消息返回
- 
- @param topic 消息主题
- @param dic 消息内容，JSON转字典
- */
--(void)messageTopic:(NSString *)topic data:(NSDictionary *)dic jsonStr:(NSString *)jsonStr;
-
-
-@end
-
-
+#import "WLMQTTClientManagerDelegate.h"
 
 @interface WLMQTTClientManager : NSObject
 
@@ -60,14 +18,40 @@ typedef void(^MQTTReceiveServerStatus)(WLMQTTStatus *status);
  */
 +(WLMQTTClientManager *)shareInstance;
 
+/** 信息获取回掉 */
+@property(nonatomic,copy) WLMessageTopicBlock messageTopicBlock;
+/** 连接状态回掉 */
+@property(nonatomic,copy) WLMQTTReceiveServerStatus MQTTReceiveServerStatus;
+/** 传输情况回掉 */
+@property(nonatomic,copy) WLMonitorFlowing monitorFlowing;
+/** 当发布的消息实际传递时被调用 */
+@property(nonatomic,copy) WLMessageDeliveredMsgID messageDeliveredMsgID;
+
+
+/**
+ 设置地址
+
+ @param Ip 连接地址
+ @param port 端口
+ */
+-(void)setIp:(NSString *)Ip Port:(UInt16)port;
+
+/**
+ 设置账号密码
+
+ @param userName 账号
+ @param password 密码
+ */
+-(void)setUserName:(NSString *)userName Password:(NSString *)password;
+
+
+
 /**
  mqtt链接方法
  
  @param clientID 唯一标示
- @param delegate 代理
  */
--(void)loginWithClientID:(NSString *)clientID
-                delegate:(id)delegate;
+-(void)loginWithClientID:(NSString *)clientID;
 
 /**
  mqtt链接方法
@@ -77,8 +61,10 @@ typedef void(^MQTTReceiveServerStatus)(WLMQTTStatus *status);
  @param MQTTReceiveServerStatus 链接状态回掉
  */
 -(void)loginWithClientID:(NSString *)clientID
-       messageTopicBlock:(messageTopicBlock)messageTopicBlock
- MQTTReceiveServerStatus:(MQTTReceiveServerStatus)MQTTReceiveServerStatus;
+       messageTopicBlock:(WLMessageTopicBlock)messageTopicBlock
+ WLMessageDeliveredMsgID:(WLMessageDeliveredMsgID)messageDeliveredMsgID
+ MQTTReceiveServerStatus:(WLMQTTReceiveServerStatus)MQTTReceiveServerStatus
+          monitorFlowing:(WLMonitorFlowing)monitorFlowing;
 
 /**
  MQTT链接
@@ -96,20 +82,13 @@ typedef void(^MQTTReceiveServerStatus)(WLMQTTStatus *status);
                     port:(UInt16)port
                 userName:(NSString *)userName
                 password:(NSString *)password
-       messageTopicBlock:(messageTopicBlock)messageTopicBlock
- MQTTReceiveServerStatus:(MQTTReceiveServerStatus)MQTTReceiveServerStatus
+       messageTopicBlock:(WLMessageTopicBlock)messageTopicBlock
+ WLMessageDeliveredMsgID:(WLMessageDeliveredMsgID)messageDeliveredMsgID
+ MQTTReceiveServerStatus:(WLMQTTReceiveServerStatus)MQTTReceiveServerStatus
+          monitorFlowing:(WLMonitorFlowing)monitorFlowing
                 delegate:(id)delegate;
 
 
-/**
- 信息获取回掉
- */
-@property(nonatomic,copy) messageTopicBlock messageTopicBlock;
-
-/**
- 连接状态回掉
- */
-@property(nonatomic,copy) MQTTReceiveServerStatus MQTTReceiveServerStatus;
 
 
 /**
@@ -129,10 +108,8 @@ typedef void(^MQTTReceiveServerStatus)(WLMQTTStatus *status);
  */
 -(void)close;
 
-/**
- 解除代理
- 
- @param obj 需要接触代理的对象
- */
--(void)unRegisterDelegate:(id)obj;
+/** 解除代理 */
+-(void)unRegisterDelegate;
+/** 绑定代理 */
+-(void)bindingDelegate:(id)obj;
 @end
