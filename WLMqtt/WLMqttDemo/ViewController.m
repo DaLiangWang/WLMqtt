@@ -7,13 +7,11 @@
 //
 
 #import "ViewController.h"
-#import "MQTTClient.h"
 
 #import "WLMQTTClientManager.h"
-
 #import "Gamemsg.pbobjc.h"
 #import <GPBMessage.h>
-@interface ViewController ()<WLMQTTClientManagerDelegate,MQTTSessionDelegate>
+@interface ViewController ()<WLMQTTClientManagerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *click;
 
 @end
@@ -25,10 +23,15 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 - (IBAction)click_button:(id)sender {
+    [[WLMQTTClientManager shareInstance] setIp:@"172.16.3.225" Port:3563];
     [[WLMQTTClientManager shareInstance] loginWithClientID:@"123" messageTopicBlock:^(NSString *topic, NSDictionary *dic, NSString *jsonStr) {
         NSLog(@"dic:%@------json:%@",dic,jsonStr);
+    } WLMessageDeliveredMsgID:^(UInt16 msgID, NSString *topic, NSData *data, BOOL retainFlag) {
+        
     } MQTTReceiveServerStatus:^(WLMQTTStatus *status) {
         NSLog(@"%@",status.statusInfo);
+    } monitorFlowing:^(NSInteger flowingIn, NSInteger flowingOut) {
+        
     }];
 }
 

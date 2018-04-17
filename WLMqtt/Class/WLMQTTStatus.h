@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MQTTClient.h"
+//#import "MQTTClient.h"
+//@class MQTTSessionEvent;
 @interface WLMQTTStatus : NSObject
 //状态
-@property(nonatomic,assign) MQTTSessionEvent statusCode;
+@property(nonatomic,assign) NSInteger statusCode;
 //状态信息
 @property(nonatomic,copy)  NSString *statusInfo;
 @end

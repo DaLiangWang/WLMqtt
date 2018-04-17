@@ -61,6 +61,7 @@
 		EFE3D44D20860F5B0053F613 /* WLMQTTClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMQTTClientManager.h; sourceTree = "<group>"; };
 		EFE3D44F20860F5B0053F613 /* WLMQTTClientManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMQTTClientManager.m; sourceTree = "<group>"; };
 		EFE3D45020860F5B0053F613 /* WLMQTTStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMQTTStatus.m; sourceTree = "<group>"; };
+		EFE3D45F208625350053F613 /* WLMQTTClientManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLMQTTClientManagerDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +170,7 @@
 				EFE3D44F20860F5B0053F613 /* WLMQTTClientManager.m */,
 				EFE3D44C20860F5B0053F613 /* WLMQTTStatus.h */,
 				EFE3D45020860F5B0053F613 /* WLMQTTStatus.m */,
+				EFE3D45F208625350053F613 /* WLMQTTClientManagerDelegate.h */,
 			);
 			path = Class;
 			sourceTree = "<group>";
