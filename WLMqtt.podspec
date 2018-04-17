@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
     s.authors      = {'wangliang' => 'wlhjx1993@gmail.com'}
     s.platform     = :ios, '8.0'
     s.source       = {:git => 'https://github.com/DaLiangWang/WLMqtt.git', :tag => s.version}
-    s.source_files = 'Class/*.{h,m}'
+    s.source_files = "Class/*.{h,m}"
     # s.public_header_files = 'WLPageView/Class/Category/WL_Macros.h'
     s.requires_arc = true
 
