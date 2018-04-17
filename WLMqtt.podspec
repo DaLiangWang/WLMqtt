@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
     s.name         = 'WLMqtt'
-    s.version      = '1.0.0'
+    s.version      = '1.0.1'
     s.summary      = 'An easy way to use mqtt'
     s.homepage     = 'https://github.com/DaLiangWang/WLMqtt'
     s.license      = 'MIT'
@@ -16,9 +16,9 @@ Pod::Spec.new do |s|
     # s.dependency "CocoaLumberjack"
     # s.dependency "MQTTClient"
     # s.dependency "SocketRocket"
-
-    s.dependency 'MQTTClient/MinL'
-    s.dependency 'MQTTClient/ManagerL'
-    s.dependency 'MQTTClient/WebsocketL'
+    s.dependency "MQTTClient"
+    # s.dependency 'MQTTClient/MinL'
+    # s.dependency 'MQTTClient/ManagerL'
+    # s.dependency 'MQTTClient/WebsocketL'
 
 end
