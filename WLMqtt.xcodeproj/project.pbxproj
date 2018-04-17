@@ -113,7 +113,7 @@
 				9CC082EAE87CB537ACC36C59 /* Frameworks */,
 				A4CED60C658A35045EEC534B /* Pods */,
 				EF08556B20808143001040B8 /* Products */,
-				EFE3D44B20860F5B0053F613 /* WLMqtt */,
+				EFE3D44B20860F5B0053F613 /* Class */,
 				EFE3D3ED2085FF6C0053F613 /* WLMqttDemo */,
 			);
 			sourceTree = "<group>";
@@ -163,7 +163,7 @@
 			path = Protobuf;
 			sourceTree = "<group>";
 		};
-		EFE3D44B20860F5B0053F613 /* WLMqtt */ = {
+		EFE3D44B20860F5B0053F613 /* Class */ = {
 			isa = PBXGroup;
 			children = (
 				EFE3D44D20860F5B0053F613 /* WLMQTTClientManager.h */,
@@ -172,7 +172,7 @@
 				EFE3D44C20860F5B0053F613 /* WLMQTTStatus.h */,
 				EFE3D45020860F5B0053F613 /* WLMQTTStatus.m */,
 			);
-			path = WLMqtt;
+			path = Class;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
