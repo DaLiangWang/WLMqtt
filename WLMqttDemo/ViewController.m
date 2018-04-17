@@ -10,7 +10,6 @@
 #import "MQTTClient.h"
 
 #import "WLMQTTClientManager.h"
-#import "WLMQTTClientManagerDelegate.h"
 
 #import "Gamemsg.pbobjc.h"
 #import <GPBMessage.h>

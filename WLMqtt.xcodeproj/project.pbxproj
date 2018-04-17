@@ -59,7 +59,6 @@
 		EFE3D3FB2085FF6C0053F613 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		EFE3D44C20860F5B0053F613 /* WLMQTTStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMQTTStatus.h; sourceTree = "<group>"; };
 		EFE3D44D20860F5B0053F613 /* WLMQTTClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMQTTClientManager.h; sourceTree = "<group>"; };
-		EFE3D44E20860F5B0053F613 /* WLMQTTClientManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLMQTTClientManagerDelegate.h; sourceTree = "<group>"; };
 		EFE3D44F20860F5B0053F613 /* WLMQTTClientManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMQTTClientManager.m; sourceTree = "<group>"; };
 		EFE3D45020860F5B0053F613 /* WLMQTTStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMQTTStatus.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -168,7 +167,6 @@
 			children = (
 				EFE3D44D20860F5B0053F613 /* WLMQTTClientManager.h */,
 				EFE3D44F20860F5B0053F613 /* WLMQTTClientManager.m */,
-				EFE3D44E20860F5B0053F613 /* WLMQTTClientManagerDelegate.h */,
 				EFE3D44C20860F5B0053F613 /* WLMQTTStatus.h */,
 				EFE3D45020860F5B0053F613 /* WLMQTTStatus.m */,
 			);
