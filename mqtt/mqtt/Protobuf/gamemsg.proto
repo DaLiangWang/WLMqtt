@@ -1,0 +1,52 @@
+syntax = "proto3";  //指定版本
+package protodata;
+
+
+message UserInfo {
+    string id = 1;
+    string account=2;//用户账户 id
+    string nickname = 3;
+    string headimgurl = 4;
+    string sex = 5;
+}
+
+message Login{
+    string name=1;
+    string token=2;
+    string password=3;
+    int32  role=4;
+    int32  encipher=5;//信息加密器类型，根据需要及客户端使用的加密方式使用此字段
+
+}
+
+message ChatMessage{
+    string room_id=1;
+    string game=2;
+    string nick_name=3;
+    string user_role=4;
+    string msg_body=5;
+    string msg_type=6;
+}
+
+message UserChatAction{
+    string room_id=1;
+    string game=2;
+    string user_id=3;
+    string nick_name=4;
+    int32  action=5;//1,进入聊天房间，0，离开聊天房间  2，用户正在输入
+}
+
+message MsgCommon{
+    int32			 code = 1;  //数据返回码
+    string			 msg = 2;   // 返回消息
+    map<string,string>  other=3;//其它预留信息
+
+    UserInfo         userInfo=200;
+    Login            login=201;
+    ChatMessage      chatMessage=202;
+    UserChatAction   userChatAction=203;
+}
+
+
+
+
