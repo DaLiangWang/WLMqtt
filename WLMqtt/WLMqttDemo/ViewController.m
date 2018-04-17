@@ -7,13 +7,11 @@
 //
 
 #import "ViewController.h"
-#import "MQTTClient.h"
 
 #import "WLMQTTClientManager.h"
-
 #import "Gamemsg.pbobjc.h"
 #import <GPBMessage.h>
-@interface ViewController ()<WLMQTTClientManagerDelegate,MQTTSessionDelegate>
+@interface ViewController ()<WLMQTTClientManagerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *click;
 
 @end

@@ -2,15 +2,15 @@
  platform :ios, '8.0'
 target 'WLMqtt' do
 #use_frameworks!
-#pod 'MQTTClient/MinL'
-#pod 'MQTTClient/ManagerL'
-#pod 'MQTTClient/WebsocketL'
+pod 'MQTTClient/MinL'
+pod 'MQTTClient/ManagerL'
+pod 'MQTTClient/WebsocketL'
 
 
 pod 'Protobuf', '~> 3.0.2'
-pod 'CocoaLumberjack', '~> 3.4.1'
-pod 'MQTTClient', '~> 0.13.1'
-pod 'SocketRocket', '~> 0.5.1'
+#pod 'CocoaLumberjack', '~> 3.4.1'
+#pod 'MQTTClient', '~> 0.13.1'
+#pod 'SocketRocket', '~> 0.5.1'
 
 #pod 'Protobuf', '~> 3.0.0'
 end
