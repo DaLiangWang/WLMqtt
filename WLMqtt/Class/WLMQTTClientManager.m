@@ -19,6 +19,8 @@
     NSString *_clientID;
     //独立基数
     NSInteger _pushNum;
+    //推送中的消息Topic
+    NSMutableArray *_pushInTopicList;
 }
 @property(nonatomic, weak)      id<WLMQTTClientManagerDelegate> delegate;//代理
 @property(nonatomic, strong)    MQTTSession *mqttSession;//链接
@@ -55,6 +57,7 @@
         [MQTTLog setLogLevel:DDLogLevelOff];
 #endif
         _pushNum = 1;
+        _pushInTopicList = [NSMutableArray array];
     }
     return self;
 }
@@ -73,40 +76,13 @@
  
  @param clientID 唯一标示
  */
--(void)loginWithClientID:(NSString *)clientID{
+-(void)loginWithClientID:(NSString *)clientID delegate:(id)delegate{
     [self loginWithClientID:clientID
                          Ip:self.ip
                        port:self.port
                    userName:self.userName
                    password:self.password
-          messageTopicBlock:nil
-    WLMessageDeliveredMsgID:nil
-    MQTTReceiveServerStatus:nil
-             monitorFlowing:nil
-                   delegate:nil];
-}
-/**
- mqtt链接方法
- 
- @param clientID 唯一标示
- @param messageTopicBlock 收到消息回掉
- @param MQTTReceiveServerStatus 链接状态回掉
- */
--(void)loginWithClientID:(NSString *)clientID
-       messageTopicBlock:(WLMessageTopicBlock)messageTopicBlock
- WLMessageDeliveredMsgID:(WLMessageDeliveredMsgID)messageDeliveredMsgID
- MQTTReceiveServerStatus:(WLMQTTReceiveServerStatus)MQTTReceiveServerStatus
-          monitorFlowing:(WLMonitorFlowing)monitorFlowing{
-    [self loginWithClientID:clientID
-                         Ip:self.ip
-                       port:self.port
-                   userName:self.userName
-                   password:self.password
-          messageTopicBlock:messageTopicBlock
-    WLMessageDeliveredMsgID:messageDeliveredMsgID
-    MQTTReceiveServerStatus:MQTTReceiveServerStatus
-             monitorFlowing:monitorFlowing
-                   delegate:nil];
+                   delegate:delegate];
 }
 
 /**
@@ -117,8 +93,6 @@
  @param port 端口
  @param userName 登录用户名
  @param password 密码
- @param messageTopicBlock 收到消息回掉
- @param MQTTReceiveServerStatus 链接状态回掉
  @param delegate 代理
  */
 -(void)loginWithClientID:(NSString *)clientID
@@ -126,10 +100,6 @@
                     port:(UInt16)port
                 userName:(NSString *)userName
                 password:(NSString *)password
-       messageTopicBlock:(WLMessageTopicBlock)messageTopicBlock
- WLMessageDeliveredMsgID:(WLMessageDeliveredMsgID)messageDeliveredMsgID
- MQTTReceiveServerStatus:(WLMQTTReceiveServerStatus)MQTTReceiveServerStatus
-          monitorFlowing:(WLMonitorFlowing)monitorFlowing
                 delegate:(id)delegate{
     if(!ip) {NSLog(@"!!!!!!!!!!!!%@!!!!!!!!!!!!",@"未设置IP地址"); return;}
     if(!port) {NSLog(@"!!!!!!!!!!!!%@!!!!!!!!!!!!",@"未设置port端口号"); return;}
@@ -138,12 +108,8 @@
     if(!userName) {NSLog(@"---------%@---------",@"未设置账号");}
     if(!password) {NSLog(@"---------%@---------",@"未设置密码");}
 
+    self.delegate = delegate;
     _clientID = clientID;
-    self.messageTopicBlock = messageTopicBlock;
-    self.MQTTReceiveServerStatus = MQTTReceiveServerStatus;
-    self.messageDeliveredMsgID = messageDeliveredMsgID;
-    self.monitorFlowing = monitorFlowing;
-
     [self loginMQTTHost:ip port:port userName:userName password:password];
 }
 
@@ -176,6 +142,7 @@
     _port=0;//服务器ip地址
     _userName=nil;//用户名
     _password=nil;//密码
+    _pushInTopicList = nil;
 }
 
 /** 绑定代理 */
@@ -193,21 +160,19 @@
 -(void)push:(NSData *)data
       topic:(NSString *)topic
      isBack:(BOOL)isBack{
-//    GPBMessage *dataPGB = data;
     if (isBack) {
-        topic = [NSString stringWithFormat:@"%@/%ld",topic,_pushNum];
-        [self.mqttSession publishData:data onTopic:topic];
+        topic = [NSString stringWithFormat:@"%@/%ld",topic,(long)_pushNum];
+        [_pushInTopicList addObject:topic];
         _pushNum ++;
     }
-    else{
-        [self.mqttSession publishData:data onTopic:topic];
-    }
-    //    [self.mqttSession subscribeTopic:topic];
+    
+    [self.mqttSession publishData:data onTopic:topic];
 }
 #pragma mark MQTTClientManagerDelegate
 /*连接成功回调*/
 -(void)connected:(MQTTSession *)session{
     NSLog(@"-----------------MQTT成功建立连接-----------------");
+    [self didBlockMQTTReceiveServerStatus:self.mqttStatus];
 }
 /*连接状态回调*/
 -(void)handleEvent:(MQTTSession *)session event:(MQTTSessionEvent)eventCode error:(NSError *)error{
@@ -235,37 +200,47 @@
     NSString *jsonStr=[NSString stringWithUTF8String:data.bytes];
 //    NSLog(@"-----------------MQTT收到消息主题：%@内容：%@",topic,jsonStr);
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-    [self messageBlockTopic:topic data:dic jsonStr:jsonStr];
+    
+    if ([_pushInTopicList containsObject:topic]){//服务器回馈自己的回掉
+        [self messageSelfBlockTopic:topic data:dic jsonStr:jsonStr];
+        [_pushInTopicList removeObject:topic];
+    }
+    else{//服务器的广播回掉
+        [self messageBlockTopic:topic data:dic jsonStr:jsonStr];
+    }
 }
-/** 当连接成功建立时被调用 */
-- (void)connected:(MQTTSession *)session sessionPresent:(BOOL)sessionPresent{
-    NSLog(@"-----------------连接成功建立-----------------");
-}
+///** 当连接成功建立时被调用 */
+//- (void)connected:(MQTTSession *)session sessionPresent:(BOOL)sessionPresent{
+//    NSLog(@"-----------------连接成功建立-----------------");
+//}
 
-/** 当发布的消息实际传递时被调用 */
+/** 向服务器推送消息通知 */
 - (void)messageDelivered:(MQTTSession *)session
                    msgID:(UInt16)msgID
                    topic:(NSString *)topic
                     data:(NSData *)data
                      qos:(MQTTQosLevel)qos
               retainFlag:(BOOL)retainFlag{
-    NSLog(@"\n发布数据:\n---msgId：%d\n---topic：%@\n---data：%@\n---qos：%hhu\n---retainFlag:%@\n",msgID,topic,data,qos,retainFlag?@"YES":@"NO");
+//    NSLog(@"\n发布数据:\n---msgId：%d\n---topic：%@\n---data：%@\n---qos：%hhu\n---retainFlag:%@\n",msgID,topic,data,qos,retainFlag?@"YES":@"NO");
+    [self WLMessageDelivered:session msgID:msgID topic:topic data:data qos:qos retainFlag:retainFlag];
 }
 
-/** 当 MQTTClients 内部缓冲区的内容更改时调用
- 用于监视传输和接收的消息的完成情况
+/**  用于监视传输和接收的消息的完成情况
  @param flowingIn MQTTClient 尚未确认的传入消息数
  @param flowingOut the number MQTT 代理尚未确认的传出消息数
  */
 - (void)buffered:(MQTTSession *)session
        flowingIn:(NSUInteger)flowingIn
       flowingOut:(NSUInteger)flowingOut{
-    NSLog(@"尚未确认的传入消息数:%ld----尚未确认的传出消息数:%ld",flowingIn,flowingOut);
+    NSLog(@"尚未确认的传入消息数:%lu----尚未确认的传出消息数:%lu",(unsigned long)flowingIn,(unsigned long)flowingOut);
+    [self WLMonitorFlowingIn:flowingIn flowingOut:flowingOut];
 }
 
 
+
+
 #pragma make --回掉--
-//收到信息
+/** 服务器推送回掉信息获取回掉 */
 -(void)messageBlockTopic:(NSString *)topic data:(NSDictionary *)dic jsonStr:(NSString *)jsonStr{
     if (self.delegate && [self.delegate respondsToSelector:@selector(WLMessageTopic:data:jsonStr:)]) {
         [self.delegate WLMessageTopic:topic data:dic jsonStr:jsonStr];
@@ -274,7 +249,16 @@
         self.messageTopicBlock(topic, dic, jsonStr);
     }
 }
-//连接状态
+/** 向服务器推送消息回馈 区别于（WLMessageTopicBlock）属于自己消息的回馈 */
+-(void)messageSelfBlockTopic:(NSString *)topic data:(NSDictionary *)dic jsonStr:(NSString *)jsonStr{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(WLMessageSelfTopic:data:jsonStr:)]) {
+        [self.delegate WLMessageSelfTopic:topic data:dic jsonStr:jsonStr];
+    }
+    if (self.messageSelfTopicBlock) {
+        self.messageSelfTopicBlock(topic, dic, jsonStr);
+    }
+}
+/** 连接状态回掉 */
 -(void)didBlockMQTTReceiveServerStatus:(WLMQTTStatus *)mqttStatus{
     if (self.delegate&&[self.delegate respondsToSelector:@selector(WLDidMQTTReceiveServerStatus:)]) {
         [self.delegate WLDidMQTTReceiveServerStatus:mqttStatus];
@@ -283,13 +267,27 @@
         self.MQTTReceiveServerStatus(mqttStatus);
     }
 }
-//监视传输和接收的消息的完成情况
+/** 本机push传输情况回掉 */
 -(void)WLMonitorFlowingIn:(NSInteger)in flowingOut:(NSInteger)Out{
     if (self.delegate&&[self.delegate respondsToSelector:@selector(WLMonitorFlowingIn:flowingOut:)]) {
         [self.delegate WLMonitorFlowingIn:in flowingOut:Out];
     }
     if (self.monitorFlowing) {
         self.monitorFlowing(in,Out);
+    }
+}
+/** 向服务器推送消息通知 */
+- (void)WLMessageDelivered:(MQTTSession *)session
+                   msgID:(UInt16)msgID
+                   topic:(NSString *)topic
+                    data:(NSData *)data
+                     qos:(MQTTQosLevel)qos
+              retainFlag:(BOOL)retainFlag{
+    if (self.delegate&&[self.delegate respondsToSelector:@selector(WLMessageDeliveredMsgID:topic:data:retainFlag:)]) {
+        [self.delegate WLMessageDeliveredMsgID:msgID topic:topic data:data retainFlag:retainFlag];
+    }
+    if (self.messageDeliveredMsgID) {
+        self.messageDeliveredMsgID(msgID,topic,data,retainFlag);
     }
 }
 

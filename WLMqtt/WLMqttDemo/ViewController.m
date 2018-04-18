@@ -24,15 +24,7 @@
 }
 - (IBAction)click_button:(id)sender {
     [[WLMQTTClientManager shareInstance] setIp:@"172.16.3.225" Port:3563];
-    [[WLMQTTClientManager shareInstance] loginWithClientID:@"123" messageTopicBlock:^(NSString *topic, NSDictionary *dic, NSString *jsonStr) {
-        NSLog(@"dic:%@------json:%@",dic,jsonStr);
-    } WLMessageDeliveredMsgID:^(UInt16 msgID, NSString *topic, NSData *data, BOOL retainFlag) {
-        
-    } MQTTReceiveServerStatus:^(WLMQTTStatus *status) {
-        NSLog(@"%@",status.statusInfo);
-    } monitorFlowing:^(NSInteger flowingIn, NSInteger flowingOut) {
-        
-    }];
+    [[WLMQTTClientManager shareInstance] loginWithClientID:@"123" delegate:self];
 }
 
 - (IBAction)click_push_button:(id)sender {
@@ -48,16 +40,13 @@
     
     [[WLMQTTClientManager shareInstance] push:[person data] topic:@"Login/HD_Login" isBack:YES];
 }
-
-
-
 /**
  连接状态返回
  
  @param status 错误码和错误info
  */
--(void)didMQTTReceiveServerStatus:(WLMQTTStatus *)status{
-    NSLog(@"连接状态返回: %ld------%@",(long)status.statusCode,status.statusInfo);
+-(void)WLDidMQTTReceiveServerStatus:(WLMQTTStatus *)status{
+    
 }
 
 /**
@@ -66,8 +55,44 @@
  @param topic 消息主题
  @param dic 消息内容，JSON转字典
  */
--(void)messageTopic:(NSString *)topic data:(NSDictionary *)dic jsonStr:(NSString *)jsonStr{
-    NSLog(@"服务器推送消息返回:%@----%@----%@",topic,dic,jsonStr);
+-(void)WLMessageTopic:(NSString *)topic
+                 data:(NSDictionary *)dic
+              jsonStr:(NSString *)jsonStr{
+    
+}
+
+/**
+ 向服务器推送消息回馈 区别于（WLMessageTopicBlock）属于自己消息的回馈
+ 
+ @param topic 回掉表示
+ @param dic 回掉内容1 字典格式
+ @param jsonStr 回掉内容2 字符串
+ */
+-(void)WLMessageSelfTopic:(NSString *)topic
+                     data:(NSDictionary *)dic
+                  jsonStr:(NSString *)jsonStr{
+    
+}
+
+/**
+ 用于监视传输和接收的消息的完成情况
+ 
+ @param flowingIn 传入
+ @param flowingOut 穿出
+ */
+- (void)WLMonitorFlowingIn:(NSUInteger)flowingIn
+                flowingOut:(NSUInteger)flowingOut{
+    
+}
+
+
+
+/** 向服务器推送消息通知 */
+- (void)WLMessageDeliveredMsgID:(UInt16)msgID
+                          topic:(NSString *)topic
+                           data:(NSData *)data
+                     retainFlag:(BOOL)retainFlag{
+    
 }
 
 
