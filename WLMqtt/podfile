@@ -10,6 +10,7 @@ pod 'MQTTClient'
 #pod 'MQTTClient/ManagerL'
 #pod 'MQTTClient/WebsocketL'
 
+pod 'YYModel'
 
 #pod 'CocoaLumberjack', '~> 3.4.1'
 #pod 'MQTTClient', '~> 0.13.1'

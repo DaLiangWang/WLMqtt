@@ -11,6 +11,7 @@
 #import "WLMQTTClientManager.h"
 #import "Gamemsg.pbobjc.h"
 #import <GPBMessage.h>
+#import <YYModel.h>
 @interface ViewController ()<WLMQTTClientManagerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *click;
 
@@ -30,15 +31,18 @@
 - (IBAction)click_push_button:(id)sender {
 //    GamemsgRoot    
     MsgCommon *person = [[MsgCommon alloc] init];
-    person.userInfo.id_p = @"1";
-    person.userInfo.nickname = @"2";
-    person.userInfo.headimgurl = @"3";
-    person.userInfo.sex = @"4";
-
-    person.login.token = @"123";
-    person.login.name = @"1";
+//    person.userInfo.id_p = @"1";
+//    person.userInfo.nickname = @"2";
+//    person.userInfo.headimgurl = @"3";
+////    person.userInfo.sex = @"4";
+//    Login *login = [[Login alloc]init];
     
-    [[WLMQTTClientManager shareInstance] push:[person data] topic:@"Login/HD_Login" isBack:YES];
+    person.login.token = @"123";
+    person.login.loginType = 1;
+    person.login.roomId = @"29";
+    
+    
+    [[WLMQTTClientManager shareInstance] push:[person data] topic:@"User/HD_Login" isBack:YES];
 }
 /**
  连接状态返回
@@ -53,11 +57,11 @@
  服务器推送消息返回
  
  @param topic 消息主题
- @param dic 消息内容，JSON转字典
  */
 -(void)WLMessageTopic:(NSString *)topic
-                 data:(NSDictionary *)dic
-              jsonStr:(NSString *)jsonStr{
+                 data:(NSData *)data{
+    MsgCommon *person = [[MsgCommon alloc]initWithData:data error:nil];
+
     
 }
 
@@ -65,13 +69,16 @@
  向服务器推送消息回馈 区别于（WLMessageTopicBlock）属于自己消息的回馈
  
  @param topic 回掉表示
- @param dic 回掉内容1 字典格式
- @param jsonStr 回掉内容2 字符串
  */
 -(void)WLMessageSelfTopic:(NSString *)topic
-                     data:(NSDictionary *)dic
-                  jsonStr:(NSString *)jsonStr{
+                     data:(NSData *)data{
     
+//    GPBMessage *message = [GPBMessage parseFromData:data error:nil];
+    
+    MsgCommon *person = [[MsgCommon alloc]initWithData:data error:nil];
+    
+//    person = data.yy_modelToJSONObject;
+
 }
 
 /**

@@ -26,6 +26,7 @@ CF_EXTERN_C_BEGIN
 
 @class ChatMessage;
 @class Login;
+@class RoomData;
 @class UserChatAction;
 @class UserInfo;
 
@@ -48,49 +49,57 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef GPB_ENUM(UserInfo_FieldNumber) {
   UserInfo_FieldNumber_Id_p = 1,
-  UserInfo_FieldNumber_Account = 2,
-  UserInfo_FieldNumber_Nickname = 3,
-  UserInfo_FieldNumber_Headimgurl = 4,
-  UserInfo_FieldNumber_Sex = 5,
+  UserInfo_FieldNumber_NickName = 2,
+  UserInfo_FieldNumber_Headimgurl = 3,
+  UserInfo_FieldNumber_Sex = 4,
+  UserInfo_FieldNumber_TeamId = 5,
+  UserInfo_FieldNumber_Level = 6,
+  UserInfo_FieldNumber_LevelIcon = 7,
+  UserInfo_FieldNumber_AnchorId = 8,
+  UserInfo_FieldNumber_LoginType = 9,
 };
 
 @interface UserInfo : GPBMessage
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *id_p;
 
-///用户账户 id
-@property(nonatomic, readwrite, copy, null_resettable) NSString *account;
-
-@property(nonatomic, readwrite, copy, null_resettable) NSString *nickname;
+@property(nonatomic, readwrite, copy, null_resettable) NSString *nickName;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *headimgurl;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *sex;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *teamId;
+
+///用户等级
+@property(nonatomic, readwrite, copy, null_resettable) NSString *level;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *levelIcon;
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *anchorId;
+
+///用户登录类型，对应 Login 中的登录类型
+@property(nonatomic, readwrite) int32_t loginType;
 
 @end
 
 #pragma mark - Login
 
 typedef GPB_ENUM(Login_FieldNumber) {
-  Login_FieldNumber_Name = 1,
-  Login_FieldNumber_Token = 2,
-  Login_FieldNumber_Password = 3,
-  Login_FieldNumber_Role = 4,
-  Login_FieldNumber_Encipher = 5,
+  Login_FieldNumber_Token = 1,
+  Login_FieldNumber_LoginType = 2,
+  Login_FieldNumber_RoomId = 3,
 };
 
 @interface Login : GPBMessage
 
-@property(nonatomic, readwrite, copy, null_resettable) NSString *name;
-
 @property(nonatomic, readwrite, copy, null_resettable) NSString *token;
 
-@property(nonatomic, readwrite, copy, null_resettable) NSString *password;
+///用户登录类型：   1：普通用户   2：房间主播
+@property(nonatomic, readwrite) int32_t loginType;
 
-@property(nonatomic, readwrite) int32_t role;
-
-///信息加密器类型，根据需要及客户端使用的加密方式使用此字段
-@property(nonatomic, readwrite) int32_t encipher;
+///房间 id
+@property(nonatomic, readwrite, copy, null_resettable) NSString *roomId;
 
 @end
 
@@ -98,26 +107,27 @@ typedef GPB_ENUM(Login_FieldNumber) {
 
 typedef GPB_ENUM(ChatMessage_FieldNumber) {
   ChatMessage_FieldNumber_RoomId = 1,
-  ChatMessage_FieldNumber_Game = 2,
+  ChatMessage_FieldNumber_UserId = 2,
   ChatMessage_FieldNumber_NickName = 3,
-  ChatMessage_FieldNumber_UserRole = 4,
-  ChatMessage_FieldNumber_MsgBody = 5,
-  ChatMessage_FieldNumber_MsgType = 6,
+  ChatMessage_FieldNumber_MsgBody = 4,
+  ChatMessage_FieldNumber_MsgType = 5,
+  ChatMessage_FieldNumber_Level = 6,
 };
 
 @interface ChatMessage : GPBMessage
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *roomId;
 
-@property(nonatomic, readwrite, copy, null_resettable) NSString *game;
+@property(nonatomic, readwrite, copy, null_resettable) NSString *userId;
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *nickName;
 
-@property(nonatomic, readwrite, copy, null_resettable) NSString *userRole;
-
 @property(nonatomic, readwrite, copy, null_resettable) NSString *msgBody;
 
-@property(nonatomic, readwrite, copy, null_resettable) NSString *msgType;
+@property(nonatomic, readwrite) int32_t msgType;
+
+///用户等级
+@property(nonatomic, readwrite, copy, null_resettable) NSString *level;
 
 @end
 
@@ -141,8 +151,29 @@ typedef GPB_ENUM(UserChatAction_FieldNumber) {
 
 @property(nonatomic, readwrite, copy, null_resettable) NSString *nickName;
 
-///1,进入聊天房间，0，离开聊天房间  2，用户正在输入
+///0,进入聊天房间，1，离开聊天房间   2，用户被禁言  3，用户接除禁言
 @property(nonatomic, readwrite) int32_t action;
+
+@end
+
+#pragma mark - RoomData
+
+typedef GPB_ENUM(RoomData_FieldNumber) {
+  RoomData_FieldNumber_RoomId = 1,
+  RoomData_FieldNumber_RoomName = 2,
+  RoomData_FieldNumber_OnlineUserNum = 3,
+};
+
+///房间实时数据
+@interface RoomData : GPBMessage
+
+@property(nonatomic, readwrite, copy, null_resettable) NSString *roomId;
+
+///房间名
+@property(nonatomic, readwrite, copy, null_resettable) NSString *roomName;
+
+///在线用户数
+@property(nonatomic, readwrite, copy, null_resettable) NSString *onlineUserNum;
 
 @end
 
@@ -156,6 +187,7 @@ typedef GPB_ENUM(MsgCommon_FieldNumber) {
   MsgCommon_FieldNumber_Login = 201,
   MsgCommon_FieldNumber_ChatMessage = 202,
   MsgCommon_FieldNumber_UserChatAction = 203,
+  MsgCommon_FieldNumber_RoomData = 204,
 };
 
 @interface MsgCommon : GPBMessage
@@ -186,6 +218,10 @@ typedef GPB_ENUM(MsgCommon_FieldNumber) {
 @property(nonatomic, readwrite, strong, null_resettable) UserChatAction *userChatAction;
 /// Test to see if @c userChatAction has been set.
 @property(nonatomic, readwrite) BOOL hasUserChatAction;
+
+@property(nonatomic, readwrite, strong, null_resettable) RoomData *roomData;
+/// Test to see if @c roomData has been set.
+@property(nonatomic, readwrite) BOOL hasRoomData;
 
 @end
 

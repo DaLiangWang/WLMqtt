@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8257B69EB21AB94869DA4CD44D8FB37E"
+               BlueprintIdentifier = "464F8A7D596658725BC702E3B5EB03FE"
                BlueprintName = "Pods-WLMqtt"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "libPods-WLMqtt.a">

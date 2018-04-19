@@ -75,17 +75,13 @@
 
 
 
-/**
- 发送数据
-
- @param data protocol 转化的模型
- @param topic 发送地址
- @param isBack 是否需要返回地址
- */
+/** 发送数据 定制需求 内部管理分发机制 对影代理回掉 */
 -(void)push:(NSData *)data
       topic:(NSString *)topic
      isBack:(BOOL)isBack;
-
+/** 发送消息 自己管理 分发机制 */
+-(void)push:(NSData *)data
+      topic:(NSString *)topic;
 
 /**
  断开连接，清空数据

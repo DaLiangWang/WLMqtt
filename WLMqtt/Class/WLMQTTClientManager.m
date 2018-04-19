@@ -198,21 +198,18 @@
          retained:(BOOL)retained
               mid:(unsigned int)mid{
     NSString *jsonStr=[NSString stringWithUTF8String:data.bytes];
-//    NSLog(@"-----------------MQTT收到消息主题：%@内容：%@",topic,jsonStr);
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
     
+    NSLog(@"-----------------MQTT收到消息主题：%@   内容jsonStr：%@  内容dic：%@",topic,jsonStr,dic);
     if ([_pushInTopicList containsObject:topic]){//服务器回馈自己的回掉
-        [self messageSelfBlockTopic:topic data:dic jsonStr:jsonStr];
+        [self messageSelfBlockTopic:topic data:data];
         [_pushInTopicList removeObject:topic];
     }
     else{//服务器的广播回掉
-        [self messageBlockTopic:topic data:dic jsonStr:jsonStr];
+        [self messageBlockTopic:topic data:data];
     }
 }
-///** 当连接成功建立时被调用 */
-//- (void)connected:(MQTTSession *)session sessionPresent:(BOOL)sessionPresent{
-//    NSLog(@"-----------------连接成功建立-----------------");
-//}
+
 
 /** 向服务器推送消息通知 */
 - (void)messageDelivered:(MQTTSession *)session
@@ -221,7 +218,7 @@
                     data:(NSData *)data
                      qos:(MQTTQosLevel)qos
               retainFlag:(BOOL)retainFlag{
-//    NSLog(@"\n发布数据:\n---msgId：%d\n---topic：%@\n---data：%@\n---qos：%hhu\n---retainFlag:%@\n",msgID,topic,data,qos,retainFlag?@"YES":@"NO");
+    NSLog(@"\n发布数据:\n---msgId：%d\n---topic：%@\n---data：%@\n---qos：%hhu\n---retainFlag:%@\n",msgID,topic,data,qos,retainFlag?@"YES":@"NO");
     [self WLMessageDelivered:session msgID:msgID topic:topic data:data qos:qos retainFlag:retainFlag];
 }
 
@@ -241,21 +238,21 @@
 
 #pragma make --回掉--
 /** 服务器推送回掉信息获取回掉 */
--(void)messageBlockTopic:(NSString *)topic data:(NSDictionary *)dic jsonStr:(NSString *)jsonStr{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(WLMessageTopic:data:jsonStr:)]) {
-        [self.delegate WLMessageTopic:topic data:dic jsonStr:jsonStr];
+-(void)messageBlockTopic:(NSString *)topic data:(NSData *)data{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(WLMessageTopic:data:)]) {
+        [self.delegate WLMessageTopic:topic data:data];
     }
     if (self.messageTopicBlock) {
-        self.messageTopicBlock(topic, dic, jsonStr);
+        self.messageTopicBlock(topic, data);
     }
 }
 /** 向服务器推送消息回馈 区别于（WLMessageTopicBlock）属于自己消息的回馈 */
--(void)messageSelfBlockTopic:(NSString *)topic data:(NSDictionary *)dic jsonStr:(NSString *)jsonStr{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(WLMessageSelfTopic:data:jsonStr:)]) {
-        [self.delegate WLMessageSelfTopic:topic data:dic jsonStr:jsonStr];
+-(void)messageSelfBlockTopic:(NSString *)topic data:(NSData *)data{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(WLMessageSelfTopic:data:)]) {
+        [self.delegate WLMessageSelfTopic:topic data:data];
     }
     if (self.messageSelfTopicBlock) {
-        self.messageSelfTopicBlock(topic, dic, jsonStr);
+        self.messageSelfTopicBlock(topic, data);
     }
 }
 /** 连接状态回掉 */

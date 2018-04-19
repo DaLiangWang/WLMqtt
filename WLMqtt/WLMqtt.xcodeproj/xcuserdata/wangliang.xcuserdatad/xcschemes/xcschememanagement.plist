@@ -7,7 +7,7 @@
 		<key>WLMqtt.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>4</integer>
 		</dict>
 		<key>mqtt.xcscheme</key>
 		<dict>

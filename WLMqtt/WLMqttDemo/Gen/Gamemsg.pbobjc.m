@@ -44,18 +44,26 @@ static GPBFileDescriptor *GamemsgRoot_FileDescriptor(void) {
 @implementation UserInfo
 
 @dynamic id_p;
-@dynamic account;
-@dynamic nickname;
+@dynamic nickName;
 @dynamic headimgurl;
 @dynamic sex;
+@dynamic teamId;
+@dynamic level;
+@dynamic levelIcon;
+@dynamic anchorId;
+@dynamic loginType;
 
 typedef struct UserInfo__storage_ {
   uint32_t _has_storage_[1];
+  int32_t loginType;
   NSString *id_p;
-  NSString *account;
-  NSString *nickname;
+  NSString *nickName;
   NSString *headimgurl;
   NSString *sex;
+  NSString *teamId;
+  NSString *level;
+  NSString *levelIcon;
+  NSString *anchorId;
 } UserInfo__storage_;
 
 // This method is threadsafe because it is initially called
@@ -74,28 +82,19 @@ typedef struct UserInfo__storage_ {
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "account",
+        .name = "nickName",
         .dataTypeSpecific.className = NULL,
-        .number = UserInfo_FieldNumber_Account,
+        .number = UserInfo_FieldNumber_NickName,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(UserInfo__storage_, account),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "nickname",
-        .dataTypeSpecific.className = NULL,
-        .number = UserInfo_FieldNumber_Nickname,
-        .hasIndex = 2,
-        .offset = (uint32_t)offsetof(UserInfo__storage_, nickname),
-        .flags = GPBFieldOptional,
+        .offset = (uint32_t)offsetof(UserInfo__storage_, nickName),
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "headimgurl",
         .dataTypeSpecific.className = NULL,
         .number = UserInfo_FieldNumber_Headimgurl,
-        .hasIndex = 3,
+        .hasIndex = 2,
         .offset = (uint32_t)offsetof(UserInfo__storage_, headimgurl),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
@@ -104,10 +103,55 @@ typedef struct UserInfo__storage_ {
         .name = "sex",
         .dataTypeSpecific.className = NULL,
         .number = UserInfo_FieldNumber_Sex,
-        .hasIndex = 4,
+        .hasIndex = 3,
         .offset = (uint32_t)offsetof(UserInfo__storage_, sex),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "teamId",
+        .dataTypeSpecific.className = NULL,
+        .number = UserInfo_FieldNumber_TeamId,
+        .hasIndex = 4,
+        .offset = (uint32_t)offsetof(UserInfo__storage_, teamId),
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "level",
+        .dataTypeSpecific.className = NULL,
+        .number = UserInfo_FieldNumber_Level,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(UserInfo__storage_, level),
+        .flags = GPBFieldOptional,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "levelIcon",
+        .dataTypeSpecific.className = NULL,
+        .number = UserInfo_FieldNumber_LevelIcon,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(UserInfo__storage_, levelIcon),
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "anchorId",
+        .dataTypeSpecific.className = NULL,
+        .number = UserInfo_FieldNumber_AnchorId,
+        .hasIndex = 7,
+        .offset = (uint32_t)offsetof(UserInfo__storage_, anchorId),
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "loginType",
+        .dataTypeSpecific.className = NULL,
+        .number = UserInfo_FieldNumber_LoginType,
+        .hasIndex = 8,
+        .offset = (uint32_t)offsetof(UserInfo__storage_, loginType),
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
+        .dataType = GPBDataTypeInt32,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -118,6 +162,11 @@ typedef struct UserInfo__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(UserInfo__storage_)
                                          flags:0];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\005\002\010\000\005\006\000\007\t\000\010\010\000\t\t\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
   }
@@ -130,19 +179,15 @@ typedef struct UserInfo__storage_ {
 
 @implementation Login
 
-@dynamic name;
 @dynamic token;
-@dynamic password;
-@dynamic role;
-@dynamic encipher;
+@dynamic loginType;
+@dynamic roomId;
 
 typedef struct Login__storage_ {
   uint32_t _has_storage_[1];
-  int32_t role;
-  int32_t encipher;
-  NSString *name;
+  int32_t loginType;
   NSString *token;
-  NSString *password;
+  NSString *roomId;
 } Login__storage_;
 
 // This method is threadsafe because it is initially called
@@ -152,49 +197,31 @@ typedef struct Login__storage_ {
   if (!descriptor) {
     static GPBMessageFieldDescription fields[] = {
       {
-        .name = "name",
-        .dataTypeSpecific.className = NULL,
-        .number = Login_FieldNumber_Name,
-        .hasIndex = 0,
-        .offset = (uint32_t)offsetof(Login__storage_, name),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
         .name = "token",
         .dataTypeSpecific.className = NULL,
         .number = Login_FieldNumber_Token,
-        .hasIndex = 1,
+        .hasIndex = 0,
         .offset = (uint32_t)offsetof(Login__storage_, token),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "password",
+        .name = "loginType",
         .dataTypeSpecific.className = NULL,
-        .number = Login_FieldNumber_Password,
+        .number = Login_FieldNumber_LoginType,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(Login__storage_, loginType),
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "roomId",
+        .dataTypeSpecific.className = NULL,
+        .number = Login_FieldNumber_RoomId,
         .hasIndex = 2,
-        .offset = (uint32_t)offsetof(Login__storage_, password),
-        .flags = GPBFieldOptional,
+        .offset = (uint32_t)offsetof(Login__storage_, roomId),
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
         .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "role",
-        .dataTypeSpecific.className = NULL,
-        .number = Login_FieldNumber_Role,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(Login__storage_, role),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
-      },
-      {
-        .name = "encipher",
-        .dataTypeSpecific.className = NULL,
-        .number = Login_FieldNumber_Encipher,
-        .hasIndex = 4,
-        .offset = (uint32_t)offsetof(Login__storage_, encipher),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeInt32,
       },
     };
     GPBDescriptor *localDescriptor =
@@ -205,6 +232,11 @@ typedef struct Login__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(Login__storage_)
                                          flags:0];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\002\002\t\000\003\006\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
   }
@@ -218,20 +250,20 @@ typedef struct Login__storage_ {
 @implementation ChatMessage
 
 @dynamic roomId;
-@dynamic game;
+@dynamic userId;
 @dynamic nickName;
-@dynamic userRole;
 @dynamic msgBody;
 @dynamic msgType;
+@dynamic level;
 
 typedef struct ChatMessage__storage_ {
   uint32_t _has_storage_[1];
+  int32_t msgType;
   NSString *roomId;
-  NSString *game;
+  NSString *userId;
   NSString *nickName;
-  NSString *userRole;
   NSString *msgBody;
-  NSString *msgType;
+  NSString *level;
 } ChatMessage__storage_;
 
 // This method is threadsafe because it is initially called
@@ -246,16 +278,16 @@ typedef struct ChatMessage__storage_ {
         .number = ChatMessage_FieldNumber_RoomId,
         .hasIndex = 0,
         .offset = (uint32_t)offsetof(ChatMessage__storage_, roomId),
-        .flags = GPBFieldOptional,
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
         .dataType = GPBDataTypeString,
       },
       {
-        .name = "game",
+        .name = "userId",
         .dataTypeSpecific.className = NULL,
-        .number = ChatMessage_FieldNumber_Game,
+        .number = ChatMessage_FieldNumber_UserId,
         .hasIndex = 1,
-        .offset = (uint32_t)offsetof(ChatMessage__storage_, game),
-        .flags = GPBFieldOptional,
+        .offset = (uint32_t)offsetof(ChatMessage__storage_, userId),
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
         .dataType = GPBDataTypeString,
       },
       {
@@ -264,33 +296,33 @@ typedef struct ChatMessage__storage_ {
         .number = ChatMessage_FieldNumber_NickName,
         .hasIndex = 2,
         .offset = (uint32_t)offsetof(ChatMessage__storage_, nickName),
-        .flags = GPBFieldOptional,
-        .dataType = GPBDataTypeString,
-      },
-      {
-        .name = "userRole",
-        .dataTypeSpecific.className = NULL,
-        .number = ChatMessage_FieldNumber_UserRole,
-        .hasIndex = 3,
-        .offset = (uint32_t)offsetof(ChatMessage__storage_, userRole),
-        .flags = GPBFieldOptional,
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "msgBody",
         .dataTypeSpecific.className = NULL,
         .number = ChatMessage_FieldNumber_MsgBody,
-        .hasIndex = 4,
+        .hasIndex = 3,
         .offset = (uint32_t)offsetof(ChatMessage__storage_, msgBody),
-        .flags = GPBFieldOptional,
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
         .dataType = GPBDataTypeString,
       },
       {
         .name = "msgType",
         .dataTypeSpecific.className = NULL,
         .number = ChatMessage_FieldNumber_MsgType,
-        .hasIndex = 5,
+        .hasIndex = 4,
         .offset = (uint32_t)offsetof(ChatMessage__storage_, msgType),
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
+        .dataType = GPBDataTypeInt32,
+      },
+      {
+        .name = "level",
+        .dataTypeSpecific.className = NULL,
+        .number = ChatMessage_FieldNumber_Level,
+        .hasIndex = 5,
+        .offset = (uint32_t)offsetof(ChatMessage__storage_, level),
         .flags = GPBFieldOptional,
         .dataType = GPBDataTypeString,
       },
@@ -303,6 +335,11 @@ typedef struct ChatMessage__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(ChatMessage__storage_)
                                          flags:0];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\005\001\006\000\002\006\000\003\010\000\004\007\000\005\007\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
   }
@@ -342,7 +379,7 @@ typedef struct UserChatAction__storage_ {
         .number = UserChatAction_FieldNumber_RoomId,
         .hasIndex = 0,
         .offset = (uint32_t)offsetof(UserChatAction__storage_, roomId),
-        .flags = GPBFieldOptional,
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
         .dataType = GPBDataTypeString,
       },
       {
@@ -360,7 +397,7 @@ typedef struct UserChatAction__storage_ {
         .number = UserChatAction_FieldNumber_UserId,
         .hasIndex = 2,
         .offset = (uint32_t)offsetof(UserChatAction__storage_, userId),
-        .flags = GPBFieldOptional,
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
         .dataType = GPBDataTypeString,
       },
       {
@@ -369,7 +406,7 @@ typedef struct UserChatAction__storage_ {
         .number = UserChatAction_FieldNumber_NickName,
         .hasIndex = 3,
         .offset = (uint32_t)offsetof(UserChatAction__storage_, nickName),
-        .flags = GPBFieldOptional,
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
         .dataType = GPBDataTypeString,
       },
       {
@@ -390,6 +427,81 @@ typedef struct UserChatAction__storage_ {
                                     fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
                                    storageSize:sizeof(UserChatAction__storage_)
                                          flags:0];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\003\001\006\000\003\006\000\004\010\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    NSAssert(descriptor == nil, @"Startup recursed!");
+    descriptor = localDescriptor;
+  }
+  return descriptor;
+}
+
+@end
+
+#pragma mark - RoomData
+
+@implementation RoomData
+
+@dynamic roomId;
+@dynamic roomName;
+@dynamic onlineUserNum;
+
+typedef struct RoomData__storage_ {
+  uint32_t _has_storage_[1];
+  NSString *roomId;
+  NSString *roomName;
+  NSString *onlineUserNum;
+} RoomData__storage_;
+
+// This method is threadsafe because it is initially called
+// in +initialize for each subclass.
++ (GPBDescriptor *)descriptor {
+  static GPBDescriptor *descriptor = nil;
+  if (!descriptor) {
+    static GPBMessageFieldDescription fields[] = {
+      {
+        .name = "roomId",
+        .dataTypeSpecific.className = NULL,
+        .number = RoomData_FieldNumber_RoomId,
+        .hasIndex = 0,
+        .offset = (uint32_t)offsetof(RoomData__storage_, roomId),
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "roomName",
+        .dataTypeSpecific.className = NULL,
+        .number = RoomData_FieldNumber_RoomName,
+        .hasIndex = 1,
+        .offset = (uint32_t)offsetof(RoomData__storage_, roomName),
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
+        .dataType = GPBDataTypeString,
+      },
+      {
+        .name = "onlineUserNum",
+        .dataTypeSpecific.className = NULL,
+        .number = RoomData_FieldNumber_OnlineUserNum,
+        .hasIndex = 2,
+        .offset = (uint32_t)offsetof(RoomData__storage_, onlineUserNum),
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
+        .dataType = GPBDataTypeString,
+      },
+    };
+    GPBDescriptor *localDescriptor =
+        [GPBDescriptor allocDescriptorForClass:[RoomData class]
+                                     rootClass:[GamemsgRoot class]
+                                          file:GamemsgRoot_FileDescriptor()
+                                        fields:fields
+                                    fieldCount:(uint32_t)(sizeof(fields) / sizeof(GPBMessageFieldDescription))
+                                   storageSize:sizeof(RoomData__storage_)
+                                         flags:0];
+#if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
+    static const char *extraTextFormatInfo =
+        "\003\001\006\000\002\010\000\003\r\000";
+    [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
+#endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");
     descriptor = localDescriptor;
   }
@@ -409,6 +521,7 @@ typedef struct UserChatAction__storage_ {
 @dynamic hasLogin, login;
 @dynamic hasChatMessage, chatMessage;
 @dynamic hasUserChatAction, userChatAction;
+@dynamic hasRoomData, roomData;
 
 typedef struct MsgCommon__storage_ {
   uint32_t _has_storage_[1];
@@ -419,6 +532,7 @@ typedef struct MsgCommon__storage_ {
   Login *login;
   ChatMessage *chatMessage;
   UserChatAction *userChatAction;
+  RoomData *roomData;
 } MsgCommon__storage_;
 
 // This method is threadsafe because it is initially called
@@ -490,6 +604,15 @@ typedef struct MsgCommon__storage_ {
         .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
         .dataType = GPBDataTypeMessage,
       },
+      {
+        .name = "roomData",
+        .dataTypeSpecific.className = GPBStringifySymbol(RoomData),
+        .number = MsgCommon_FieldNumber_RoomData,
+        .hasIndex = 6,
+        .offset = (uint32_t)offsetof(MsgCommon__storage_, roomData),
+        .flags = GPBFieldOptional | GPBFieldTextFormatNameCustom,
+        .dataType = GPBDataTypeMessage,
+      },
     };
     GPBDescriptor *localDescriptor =
         [GPBDescriptor allocDescriptorForClass:[MsgCommon class]
@@ -501,7 +624,7 @@ typedef struct MsgCommon__storage_ {
                                          flags:0];
 #if !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     static const char *extraTextFormatInfo =
-        "\003\310\001\010\000\312\001\013\000\313\001\016\000";
+        "\004\310\001\010\000\312\001\013\000\313\001\016\000\314\001\010\000";
     [localDescriptor setupExtraTextInfo:extraTextFormatInfo];
 #endif  // !GPBOBJC_SKIP_MESSAGE_TEXTFORMAT_EXTRAS
     NSAssert(descriptor == nil, @"Startup recursed!");

@@ -11,7 +11,6 @@
 		EFE3D4022085FF6C0053F613 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFE3D3EE2085FF6C0053F613 /* LaunchScreen.storyboard */; };
 		EFE3D4032085FF6C0053F613 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFE3D3F02085FF6C0053F613 /* Assets.xcassets */; };
 		EFE3D4042085FF6C0053F613 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE3D3F12085FF6C0053F613 /* ViewController.m */; };
-		EFE3D4052085FF6C0053F613 /* Gamemsg.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE3D3F32085FF6C0053F613 /* Gamemsg.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		EFE3D4062085FF6C0053F613 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFE3D3F52085FF6C0053F613 /* Main.storyboard */; };
 		EFE3D4072085FF6C0053F613 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE3D3F62085FF6C0053F613 /* main.m */; };
 		EFE3D4082085FF6C0053F613 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE3D3F72085FF6C0053F613 /* AppDelegate.m */; };
@@ -19,6 +18,7 @@
 		EFE3D40A2085FF6C0053F613 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFE3D3FA2085FF6C0053F613 /* Info.plist */; };
 		EFE3D45120860F5B0053F613 /* WLMQTTClientManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE3D44F20860F5B0053F613 /* WLMQTTClientManager.m */; };
 		EFE3D45220860F5B0053F613 /* WLMQTTStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE3D45020860F5B0053F613 /* WLMQTTStatus.m */; };
+		EFE3D4C8208771890053F613 /* Gamemsg.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE3D4C6208771890053F613 /* Gamemsg.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,8 +49,6 @@
 		EFE3D3EF2085FF6C0053F613 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		EFE3D3F02085FF6C0053F613 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EFE3D3F12085FF6C0053F613 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		EFE3D3F32085FF6C0053F613 /* Gamemsg.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gamemsg.pbobjc.m; sourceTree = "<group>"; };
-		EFE3D3F42085FF6C0053F613 /* Gamemsg.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gamemsg.pbobjc.h; sourceTree = "<group>"; };
 		EFE3D3F52085FF6C0053F613 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		EFE3D3F62085FF6C0053F613 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		EFE3D3F72085FF6C0053F613 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -62,6 +60,8 @@
 		EFE3D44F20860F5B0053F613 /* WLMQTTClientManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMQTTClientManager.m; sourceTree = "<group>"; };
 		EFE3D45020860F5B0053F613 /* WLMQTTStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLMQTTStatus.m; sourceTree = "<group>"; };
 		EFE3D45F208625350053F613 /* WLMQTTClientManagerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLMQTTClientManagerDelegate.h; sourceTree = "<group>"; };
+		EFE3D4C6208771890053F613 /* Gamemsg.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gamemsg.pbobjc.m; sourceTree = "<group>"; };
+		EFE3D4C7208771890053F613 /* Gamemsg.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gamemsg.pbobjc.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,8 +149,8 @@
 		EFE3D3F22085FF6C0053F613 /* Gen */ = {
 			isa = PBXGroup;
 			children = (
-				EFE3D3F42085FF6C0053F613 /* Gamemsg.pbobjc.h */,
-				EFE3D3F32085FF6C0053F613 /* Gamemsg.pbobjc.m */,
+				EFE3D4C7208771890053F613 /* Gamemsg.pbobjc.h */,
+				EFE3D4C6208771890053F613 /* Gamemsg.pbobjc.m */,
 			);
 			path = Gen;
 			sourceTree = "<group>";
@@ -334,9 +334,9 @@
 			files = (
 				EFE3D45220860F5B0053F613 /* WLMQTTStatus.m in Sources */,
 				EFE3D4082085FF6C0053F613 /* AppDelegate.m in Sources */,
-				EFE3D4052085FF6C0053F613 /* Gamemsg.pbobjc.m in Sources */,
 				EFE3D45120860F5B0053F613 /* WLMQTTClientManager.m in Sources */,
 				EFE3D4072085FF6C0053F613 /* main.m in Sources */,
+				EFE3D4C8208771890053F613 /* Gamemsg.pbobjc.m in Sources */,
 				EFE3D4042085FF6C0053F613 /* ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

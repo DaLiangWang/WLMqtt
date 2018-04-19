@@ -12,18 +12,16 @@ typedef void(^WLMQTTReceiveServerStatus)(WLMQTTStatus *status);
  
  @param topic 回掉表示
  @param dic 回掉内容1 字典格式
- @param jsonStr 回掉内容2 字符串
  */
-typedef void(^WLMessageTopicBlock)(NSString *topic,NSDictionary *dic,NSString *jsonStr);
+typedef void(^WLMessageTopicBlock)(NSString *topic,NSData *data);
 
 /**
  向服务器推送消息回馈 区别于（WLMessageTopicBlock）属于自己消息的回馈
  
  @param topic 回掉表示
  @param dic 回掉内容1 字典格式
- @param jsonStr 回掉内容2 字符串
  */
-typedef void(^WLMessageSelfTopicBlock)(NSString *topic,NSDictionary *dic,NSString *jsonStr);
+typedef void(^WLMessageSelfTopicBlock)(NSString *topic,NSData *data);
 
 
 /**
@@ -57,22 +55,17 @@ typedef void(^WLMessageDeliveredMsgID)(UInt16 msgID,NSString *topic,NSData *data
  服务器推送消息返回
  
  @param topic 消息主题
- @param dic 消息内容，JSON转字典
  */
 -(void)WLMessageTopic:(NSString *)topic
-                 data:(NSDictionary *)dic
-              jsonStr:(NSString *)jsonStr;
+                 data:(NSData *)data;
 
 /**
  向服务器推送消息回馈 区别于（WLMessageTopicBlock）属于自己消息的回馈
  
  @param topic 回掉表示
- @param dic 回掉内容1 字典格式
- @param jsonStr 回掉内容2 字符串
  */
 -(void)WLMessageSelfTopic:(NSString *)topic
-                     data:(NSDictionary *)dic
-                  jsonStr:(NSString *)jsonStr;
+                         data:(NSData *)data;
 
 /**
  用于监视传输和接收的消息的完成情况

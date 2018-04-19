@@ -8,20 +8,24 @@ PODS:
     - MQTTClient/Min
   - MQTTClient/Min (0.13.1)
   - Protobuf (3.0.2)
+  - YYModel (1.0.4)
 
 DEPENDENCIES:
   - MQTTClient
   - Protobuf (~> 3.0.2)
+  - YYModel
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - MQTTClient
     - Protobuf
+    - YYModel
 
 SPEC CHECKSUMS:
   MQTTClient: bedb2125ed9fcde295731e7605793f7757a41c8e
   Protobuf: 6d10f661ec22108e47dea70446ec89e00584fd42
+  YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 990568b8e3ce259a3e4e1f4e4e1ef4f954c785b7
+PODFILE CHECKSUM: cd1db1dcf6bd8b709b7f04783479e4ae138cf22d
 
 COCOAPODS: 1.5.0
