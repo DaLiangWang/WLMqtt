@@ -21,6 +21,12 @@
     NSInteger _pushNum;
     //推送中的消息Topic
     NSMutableArray *_pushInTopicList;
+    //连接状态 只有连接上后为YES
+    BOOL _isConnection;
+    //重连次数
+    NSInteger _recNum;
+    //创建一个定时器模式的事件源
+    dispatch_source_t _timer;
 }
 @property(nonatomic, weak)      id<WLMQTTClientManagerDelegate> delegate;//代理
 @property(nonatomic, strong)    MQTTSession *mqttSession;//链接
@@ -30,6 +36,7 @@
 @property(nonatomic, strong)    NSString *userName;//用户名
 @property(nonatomic, strong)    NSString *password;//密码
 @property(nonatomic, strong)    WLMQTTStatus *mqttStatus;//连接服务器状态
+
 @end
 
 @implementation WLMQTTClientManager
@@ -56,6 +63,10 @@
 #else
         [MQTTLog setLogLevel:DDLogLevelOff];
 #endif
+        self.reconnectTime = @"10";
+        self.reconnectNum = 2;
+        _recNum = self.reconnectNum;
+        
         _pushNum = 1;
         _pushInTopicList = [NSMutableArray array];
     }
@@ -101,12 +112,22 @@
                 userName:(NSString *)userName
                 password:(NSString *)password
                 delegate:(id)delegate{
-    if(!ip) {NSLog(@"!!!!!!!!!!!!%@!!!!!!!!!!!!",@"未设置IP地址"); return;}
-    if(!port) {NSLog(@"!!!!!!!!!!!!%@!!!!!!!!!!!!",@"未设置port端口号"); return;}
-    if(!clientID) {NSLog(@"!!!!!!!!!!!!%@!!!!!!!!!!!!",@"未设置clientID地址"); return;}
+    //(6)取消定时器dispatch源，【必须】
+    if (_timer){
+        dispatch_cancel(_timer);
+    }
+    [_mqttSession close];
+
+    if(!ip) {DDLogInfo(@"!!!!!!!!!!!!%@!!!!!!!!!!!!",@"未设置IP地址"); return;}
+    if(!port) {DDLogInfo(@"!!!!!!!!!!!!%@!!!!!!!!!!!!",@"未设置port端口号"); return;}
+    if(!clientID) {DDLogInfo(@"!!!!!!!!!!!!%@!!!!!!!!!!!!",@"未设置clientID地址"); return;}
     
-    if(!userName) {NSLog(@"---------%@---------",@"未设置账号");}
-    if(!password) {NSLog(@"---------%@---------",@"未设置密码");}
+    if(!userName) {DDLogInfo(@"---------%@---------",@"未设置账号");}
+    if(!password) {DDLogInfo(@"---------%@---------",@"未设置密码");}
+
+    DDLogInfo(@"重置重新连接次数：%ld次",_recNum);
+    _recNum = self.reconnectNum;
+    
 
     self.delegate = delegate;
     _clientID = clientID;
@@ -128,7 +149,7 @@
     [self.mqttSession setPassword:password];
     
     //会话链接并设置超时时间
-    [self.mqttSession connectAndWaitTimeout:20];
+    [self.mqttSession connectAndWaitTimeout:[self.reconnectTime intValue]];
 }
 /**
  断开连接，清空数据
@@ -156,6 +177,12 @@
     self.delegate = nil;
 }
 
+
+/** 发送消息 自己管理 分发机制 */
+-(void)push:(NSData *)data
+      topic:(NSString *)topic{
+    [self push:data topic:topic isBack:NO];
+}
 /*发送数据*/
 -(void)push:(NSData *)data
       topic:(NSString *)topic
@@ -168,28 +195,116 @@
     
     [self.mqttSession publishData:data onTopic:topic];
 }
+
 #pragma mark MQTTClientManagerDelegate
 /*连接成功回调*/
 -(void)connected:(MQTTSession *)session{
-    NSLog(@"-----------------MQTT成功建立连接-----------------");
-    [self didBlockMQTTReceiveServerStatus:self.mqttStatus];
+    DDLogInfo(@"-----------------MQTT成功建立连接-----------------");
+    _isConnection = YES;
+    _recNum = self.reconnectNum;
+    
+    [self didBlockMQTTReceiveServerStatus:WLMQTTStatusCodeConnected];
 }
 /*连接状态回调*/
 -(void)handleEvent:(MQTTSession *)session event:(MQTTSessionEvent)eventCode error:(NSError *)error{
-    NSDictionary *events = @{
-                             @(MQTTSessionEventConnected): @"链接成功",
-                             @(MQTTSessionEventConnectionRefused): @"拒绝连接",
-                             @(MQTTSessionEventConnectionClosed): @"链接关闭",
-                             @(MQTTSessionEventConnectionError): @"链接错误",
-                             @(MQTTSessionEventProtocolError): @"protocoll 错误",
-                             @(MQTTSessionEventConnectionClosedByBroker): @"连接代理关闭"
-                             };
-    [self.mqttStatus setStatusCode:eventCode];
-    [self.mqttStatus setStatusInfo:[events objectForKey:@(eventCode)]];
-    [self didBlockMQTTReceiveServerStatus:self.mqttStatus];
-    NSLog(@"-----------------MQTT连接状态%@-----------------",[events objectForKey:@(eventCode)]);
+/*
+ @(MQTTSessionEventConnected): @"链接成功",
+ @(MQTTSessionEventConnectionRefused): @"拒绝连接",
+ @(MQTTSessionEventConnectionClosed): @"链接关闭",
+ @(MQTTSessionEventConnectionError): @"链接错误",
+ @(MQTTSessionEventProtocolError): @"protocoll 错误",
+ @(MQTTSessionEventConnectionClosedByBroker): @"连接代理关闭"
+ */
+    switch (eventCode) {
+            case MQTTSessionEventConnected:
+            [self didBlockMQTTReceiveServerStatus:WLMQTTStatusCodeConnected];
+            break;
+            case MQTTSessionEventConnectionRefused:
+            [self didBlockMQTTReceiveServerStatus:WLMQTTStatusCodeConnectedRefused];
+            break;
+            case MQTTSessionEventConnectionClosed:
+            [self didBlockMQTTReceiveServerStatus:WLMQTTStatusCodeConnectedClosed];
+            break;
+            case MQTTSessionEventConnectionError:
+            [self didBlockMQTTReceiveServerStatus:WLMQTTStatusCodeConnectedError];
+            break;
+            case MQTTSessionEventProtocolError:
+            [self didBlockMQTTReceiveServerStatus:WLMQTTStatusCodeProtocolError];
+            break;
+            case MQTTSessionEventConnectionClosedByBroker:
+            [self didBlockMQTTReceiveServerStatus:WLMQTTStatusCodeConnectedClosedByBroker];
+            break;
+        default:
+            break;
+    }
+    DDLogInfo(@"-----------------MQTT连接状态-----%@-----------------",self.mqttStatus.statusInfo);
+    if (eventCode == MQTTSessionEventConnectionClosed){//如果连接关闭
+        if (_isConnection){//是连接成功后的断线
+            if (_recNum > 0){
+                [self didBlockMQTTReceiveServerStatus:WLMQTTStatusCodeReconnect];
+                [self reconnectTime:self.reconnectTime];
+            }
+            else{
+                [self didBlockMQTTReceiveServerStatus:WLMQTTStatusCodeReconnectFailure];
+                DDLogInfo(@"-----------------断线重连超时，失败-----------------");
+                //(6)取消定时器dispatch源，【必须】
+                if (_timer){
+                    dispatch_cancel(_timer);
+                }
+                [_mqttSession close];
+            }
+        }
+        else{//不是断线重连
+            if (_recNum > 0){
+                [self didBlockMQTTReceiveServerStatus:WLMQTTStatusCodeConnectedReconnect];
+                [self reconnectTime:self.reconnectTime];
+            }
+            else{
+                [self didBlockMQTTReceiveServerStatus:WLMQTTStatusCodeConnectedReconnectFailure];
+                DDLogInfo(@"-----------------连接超时，失败-----------------");
+                //(6)取消定时器dispatch源，【必须】
+                if (_timer){
+                    dispatch_cancel(_timer);
+                }
+                [_mqttSession close];
+            }
+        }
+    }
 }
-
+-(void)reconnectTime:(NSString *)time{
+    __block NSInteger second = [time integerValue];
+    //(1)获取或者创建一个队列，一般情况下获取一个全局的队列
+    dispatch_queue_t quene = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    //(2)创建一个定时器模式的事件源
+    _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, quene);
+    //(3)设置定时器的响应间隔
+    dispatch_source_set_timer(_timer, DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC, 0 * NSEC_PER_SEC);
+    //(4)设置定时器事件源的响应回调，当定时事件发生时，执行此回调
+    dispatch_source_set_event_handler(_timer, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (second == 0) {
+                [self performSelector:@selector(todoSomething) withObject:nil afterDelay:1.2f];
+                //(6)取消定时器dispatch源，【必须】
+                dispatch_cancel(_timer);
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    DDLogInfo(@"-----------------%ld秒后重连-----------------",second);
+                });
+                second--;
+            }
+        });
+    });
+    //(5)启动定时器事件
+    dispatch_resume(_timer);
+}
+-(void)todoSomething{
+    DDLogInfo(@"-----------------重连中-----------------");
+    if (_recNum > 0){
+        [self loginMQTTHost:self.ip port:self.port userName:self.userName password:self.password];
+    }
+    _recNum --;
+    DDLogInfo(@"-----------------重连(剩余%ld次)-----------------",_recNum);
+}
 /*收到消息*/
 -(void)newMessage:(MQTTSession *)session
              data:(NSData *)data
@@ -200,7 +315,7 @@
     NSString *jsonStr=[NSString stringWithUTF8String:data.bytes];
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
     
-    NSLog(@"-----------------MQTT收到消息主题：%@   内容jsonStr：%@  内容dic：%@",topic,jsonStr,dic);
+    DDLogInfo(@"-----------------MQTT收到消息主题：%@   内容jsonStr：%@  内容dic：%@",topic,jsonStr,dic);
     if ([_pushInTopicList containsObject:topic]){//服务器回馈自己的回掉
         [self messageSelfBlockTopic:topic data:data];
         [_pushInTopicList removeObject:topic];
@@ -218,7 +333,7 @@
                     data:(NSData *)data
                      qos:(MQTTQosLevel)qos
               retainFlag:(BOOL)retainFlag{
-    NSLog(@"\n发布数据:\n---msgId：%d\n---topic：%@\n---data：%@\n---qos：%hhu\n---retainFlag:%@\n",msgID,topic,data,qos,retainFlag?@"YES":@"NO");
+    DDLogInfo(@"\n发布数据:\n---msgId：%d\n---topic：%@\n---data：%@\n---qos：%hhu\n---retainFlag:%@\n",msgID,topic,data,qos,retainFlag?@"YES":@"NO");
     [self WLMessageDelivered:session msgID:msgID topic:topic data:data qos:qos retainFlag:retainFlag];
 }
 
@@ -229,7 +344,7 @@
 - (void)buffered:(MQTTSession *)session
        flowingIn:(NSUInteger)flowingIn
       flowingOut:(NSUInteger)flowingOut{
-    NSLog(@"尚未确认的传入消息数:%lu----尚未确认的传出消息数:%lu",(unsigned long)flowingIn,(unsigned long)flowingOut);
+    DDLogInfo(@"尚未确认的传入消息数:%lu----尚未确认的传出消息数:%lu",(unsigned long)flowingIn,(unsigned long)flowingOut);
     [self WLMonitorFlowingIn:flowingIn flowingOut:flowingOut];
 }
 
@@ -256,12 +371,14 @@
     }
 }
 /** 连接状态回掉 */
--(void)didBlockMQTTReceiveServerStatus:(WLMQTTStatus *)mqttStatus{
+-(void)didBlockMQTTReceiveServerStatus:(WLMQTTStatusCode)MQTTStatusCode{
+    self.mqttStatus.WLMQTTStatusCode = MQTTStatusCode;
+//    [self.mqttStatus setWLMQTTStatusCode:MQTTStatusCode];
     if (self.delegate&&[self.delegate respondsToSelector:@selector(WLDidMQTTReceiveServerStatus:)]) {
-        [self.delegate WLDidMQTTReceiveServerStatus:mqttStatus];
+        [self.delegate WLDidMQTTReceiveServerStatus:self.mqttStatus];
     }
     if (self.MQTTReceiveServerStatus) {
-        self.MQTTReceiveServerStatus(mqttStatus);
+        self.MQTTReceiveServerStatus(self.mqttStatus);
     }
 }
 /** 本机push传输情况回掉 */

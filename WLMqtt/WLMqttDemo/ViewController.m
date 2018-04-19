@@ -40,8 +40,10 @@
     person.login.token = @"123";
     person.login.loginType = 1;
     person.login.roomId = @"29";
+//    [person data]
     
-    
+    MsgCommon *persons = [[MsgCommon alloc]initWithData:[person data] error:nil];
+    NSLog(@"%@",persons.login.token);
     [[WLMQTTClientManager shareInstance] push:[person data] topic:@"User/HD_Login" isBack:YES];
 }
 /**
@@ -76,7 +78,9 @@
 //    GPBMessage *message = [GPBMessage parseFromData:data error:nil];
     
     MsgCommon *person = [[MsgCommon alloc]initWithData:data error:nil];
-    
+    NSLog(@"%@",person.msg);
+    NSLog(@"%d",person.code);
+
 //    person = data.yy_modelToJSONObject;
 
 }

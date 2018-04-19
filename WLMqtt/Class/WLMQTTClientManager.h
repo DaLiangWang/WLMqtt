@@ -29,6 +29,10 @@
 /** 向服务器推送消息通知 */
 @property(nonatomic,copy) WLMessageDeliveredMsgID messageDeliveredMsgID;
 
+/** 重连间隔 */
+@property(nonatomic,strong) NSString *reconnectTime;
+/** 重连次数 */
+@property(nonatomic,assign) NSInteger reconnectNum;
 
 /**
  设置地址
