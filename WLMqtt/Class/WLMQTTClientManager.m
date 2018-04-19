@@ -27,6 +27,7 @@
     NSInteger _recNum;
     //创建一个定时器模式的事件源
     dispatch_source_t _timer;
+    
 }
 @property(nonatomic, weak)      id<WLMQTTClientManagerDelegate> delegate;//代理
 @property(nonatomic, strong)    MQTTSession *mqttSession;//链接
