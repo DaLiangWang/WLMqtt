@@ -151,9 +151,11 @@
     //会话链接并设置超时时间
     [self.mqttSession connectAndWaitTimeout:[self.reconnectTime intValue]];
 }
-/**
- 断开连接，清空数据
- */
+/** 重新连接 */
+-(void)rewiring{
+    [self loginMQTTHost:self.ip port:self.port userName:self.userName password:self.password];
+}
+/** 断开连接，清空数据 */
 -(void)close{
     [_mqttSession close];
     _delegate=nil;//代理
@@ -288,7 +290,7 @@
                 dispatch_cancel(_timer);
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    DDLogInfo(@"-----------------%ld秒后重连-----------------",second);
+                    DDLogInfo(@"-----------------%ld秒后重连-----------------",(long)second);
                 });
                 second--;
             }
@@ -303,7 +305,7 @@
         [self loginMQTTHost:self.ip port:self.port userName:self.userName password:self.password];
     }
     _recNum --;
-    DDLogInfo(@"-----------------重连(剩余%ld次)-----------------",_recNum);
+    DDLogInfo(@"-----------------重连(剩余%ld次)-----------------",(long)_recNum);
 }
 /*收到消息*/
 -(void)newMessage:(MQTTSession *)session

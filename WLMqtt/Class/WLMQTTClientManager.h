@@ -87,11 +87,10 @@
 -(void)push:(NSData *)data
       topic:(NSString *)topic;
 
-/**
- 断开连接，清空数据
- */
+/** 重新连接 */
+-(void)rewiring;
+/** 断开连接，清空数据 */
 -(void)close;
-
 /** 解除代理 */
 -(void)unRegisterDelegate;
 /** 绑定代理 */
