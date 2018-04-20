@@ -181,21 +181,19 @@
 
 
 /** 发送消息 自己管理 分发机制 */
--(void)push:(NSData *)data
-      topic:(NSString *)topic{
+-(NSString *)push:(NSData *)data topic:(NSString *)topic{
     [self push:data topic:topic isBack:NO];
+    return topic;
 }
 /*发送数据*/
--(void)push:(NSData *)data
-      topic:(NSString *)topic
-     isBack:(BOOL)isBack{
+-(NSString *)push:(NSData *)data topic:(NSString *)topic isBack:(BOOL)isBack{
     if (isBack) {
         topic = [NSString stringWithFormat:@"%@/%ld",topic,(long)_pushNum];
         [_pushInTopicList addObject:topic];
         _pushNum ++;
     }
-    
     [self.mqttSession publishData:data onTopic:topic];
+    return topic;
 }
 
 #pragma mark MQTTClientManagerDelegate

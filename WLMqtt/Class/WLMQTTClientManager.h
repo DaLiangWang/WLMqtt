@@ -80,12 +80,12 @@
 
 
 /** 发送数据 定制需求 内部管理分发机制 对影代理回掉 */
--(void)push:(NSData *)data
-      topic:(NSString *)topic
-     isBack:(BOOL)isBack;
+-(NSString *)push:(NSData *)data
+            topic:(NSString *)topic
+           isBack:(BOOL)isBack;
 /** 发送消息 自己管理 分发机制 */
--(void)push:(NSData *)data
-      topic:(NSString *)topic;
+-(NSString *)push:(NSData *)data
+            topic:(NSString *)topic;
 
 /** 重新连接 */
 -(void)rewiring;
