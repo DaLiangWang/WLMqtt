@@ -312,10 +312,10 @@
               qos:(MQTTQosLevel)qos
          retained:(BOOL)retained
               mid:(unsigned int)mid{
-    NSString *jsonStr=[NSString stringWithUTF8String:data.bytes];
-    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-    
-    DDLogInfo(@"-----------------MQTT收到消息主题：%@   内容jsonStr：%@  内容dic：%@",topic,jsonStr,dic);
+//    NSString *jsonStr=[NSString stringWithUTF8String:data.bytes];
+//    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+//
+    DDLogInfo(@"-----------------MQTT收到消息主题：%@",topic);
     if ([_pushInTopicList containsObject:topic]){//服务器回馈自己的回掉
         [self messageSelfBlockTopic:topic data:data];
         [_pushInTopicList removeObject:topic];
