@@ -63,7 +63,7 @@
 #else
         [MQTTLog setLogLevel:DDLogLevelOff];
 #endif
-        self.reconnectTime = @"10";
+        self.reconnectTime = @"5";
         self.reconnectNum = 2;
         _recNum = self.reconnectNum;
         
@@ -251,7 +251,7 @@
                 if (_timer){
                     dispatch_cancel(_timer);
                 }
-                [_mqttSession close];
+//                [_mqttSession close];
             }
         }
         else{//不是断线重连
@@ -266,7 +266,7 @@
                 if (_timer){
                     dispatch_cancel(_timer);
                 }
-                [_mqttSession close];
+//                [_mqttSession close];
             }
         }
     }
